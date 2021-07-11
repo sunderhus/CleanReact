@@ -1,4 +1,4 @@
-import { AuthenticationParams } from './../../../domain/usecases/authentication'
+import { AuthenticationParams } from '@/domain/usecases/authentication'
 import { IHttpPostClient } from 'data/protocols/http/http-post-client'
 
 export class RemoteAuthentication {
