@@ -1,4 +1,4 @@
-import { HttpPostParams } from './../../../data/protocols/http/http-post-client'
+import { HttpPostParams } from '@/data/protocols/http/http-post-client'
 import { AxiosHttpClient } from './axios-http-client'
 import axios from 'axios'
 import faker from 'faker'
