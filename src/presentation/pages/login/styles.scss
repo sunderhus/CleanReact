@@ -1,7 +1,134 @@
+@import '../../styles/colors.scss';
+
 * {
   font-family: "Roboto", sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 62.5%;
+}
+
+input[type="password"],
+input[type="email"] {
+  border: 1px solid $primaryLight;
+  line-height: 4rem;
+  border-radius: 0.4rem;
+  outline: $primaryLight;
+  padding:0 4rem 0 0.8rem;
+
+}
+button {
+  background-color: $primary;
+  color: $white;
+  border-radius: 0.8rem;
+  font-size: 1.6rem;
+  border: none;
+  line-height: 6rem;
+  outline: none;
+  transition: opacity 0.2s linear;
+  &:hover{
+    opacity: 0.9;
+  }
 }
 
 .login {
-  background-color: red;
+  background-color: $background;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: space-between;
+
+  .header {
+    display: flex;
+    background-color: $primary;
+    flex-direction: column;
+    border-top: 4rem solid $primaryDark;
+    background-color: $primary;
+    align-items: center;
+
+    img {
+      margin-top: 4rem;
+    }
+
+    h1 {
+      color: $white;
+      margin: 16px 0px 4rem;
+    }
+  }
+  .form {
+    display: flex;
+    flex-direction: column;
+    background-color: $white;
+    width: 40rem;
+    padding: 4rem;
+    border-radius: 0.8rem;
+    align-self: center;
+    box-shadow: 0px 1px 8px -1px transparentize($black, 0.8);
+  
+    h2{
+      color:$primaryDark;
+      text-align: center;
+      font-size: 2rem;
+      text-transform: uppercase;
+    }
+
+
+    .inputWrap{
+      margin-top: 1.6rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      position: relative;
+      
+      input{
+        flex-grow: 1;
+      }
+
+      .status{
+        position: absolute;
+        right: 0.8rem;
+        font-size: 1.2rem;
+        cursor: help;
+      }
+    }
+
+    .submit{
+      margin-top: 3.2rem;
+    }
+
+    .link{
+      text-align:center;
+      color:$primary;
+      font-size: 1.4rem;
+      text-transform: lowercase;
+      margin-top: 1.6rem;
+      cursor: pointer;
+
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+
+    .errorWrap{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      
+      .spinner{
+        margin-top:3rem;
+      }
+      
+      .error{
+        color:$primaryLight;
+        margin-top:3rem;
+        font-size: 1.4rem;
+      }
+    }
+  }
+  .footer {
+    background-color: $primary;
+    height: 4.8rem;
+  }
 }
