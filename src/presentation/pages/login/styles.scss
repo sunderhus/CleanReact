@@ -10,15 +10,6 @@ html {
   font-size: 62.5%;
 }
 
-input[type="password"],
-input[type="email"] {
-  border: 1px solid $primaryLight;
-  line-height: 4rem;
-  border-radius: 0.4rem;
-  outline: $primaryLight;
-  padding:0 4rem 0 0.8rem;
-
-}
 button {
   background-color: $primary;
   color: $white;
@@ -59,24 +50,7 @@ button {
     }
 
 
-    .inputWrap{
-      margin-top: 1.6rem;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      position: relative;
-      
-      input{
-        flex-grow: 1;
-      }
-
-      .status{
-        position: absolute;
-        right: 0.8rem;
-        font-size: 1.2rem;
-        cursor: help;
-      }
-    }
+   
 
     .submit{
       margin-top: 3.2rem;
