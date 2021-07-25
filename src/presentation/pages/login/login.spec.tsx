@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import Login from './index'
 
-describe('', () => {
+describe('Login Component', () => {
   test('Should not render Spinner and erro on start', () => {
     const { getByTestId } = render(<Login />)
     const errorWrap = getByTestId('error-wrap')
