@@ -6,7 +6,7 @@ const Login: React.FC = () => {
   return (
     <div className={Styles.login}>
       <LoginHeader />
-      <form className={Styles.form}>
+      <form className={Styles.form} autoComplete="off">
         <h2>login</h2>
         <Input type="email" name="email" placeholder="Digite seu E-mail" />
         <Input type="password" name="password" placeholder="Digite sua senha" />
