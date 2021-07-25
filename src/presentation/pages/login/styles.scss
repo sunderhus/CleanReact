@@ -40,23 +40,7 @@ button {
   height: 100vh;
   justify-content: space-between;
 
-  .header {
-    display: flex;
-    background-color: $primary;
-    flex-direction: column;
-    border-top: 4rem solid $primaryDark;
-    background-color: $primary;
-    align-items: center;
-
-    img {
-      margin-top: 4rem;
-    }
-
-    h1 {
-      color: $white;
-      margin: 16px 0px 4rem;
-    }
-  }
+  
   .form {
     display: flex;
     flex-direction: column;
