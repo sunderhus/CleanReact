@@ -1,28 +1,4 @@
-@import '../../styles/colors.scss';
-
-* {
-  font-family: "Roboto", sans-serif;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-html {
-  font-size: 62.5%;
-}
-
-button {
-  background-color: $primary;
-  color: $white;
-  border-radius: 0.8rem;
-  font-size: 1.6rem;
-  border: none;
-  line-height: 6rem;
-  outline: none;
-  transition: opacity 0.2s linear;
-  &:hover{
-    opacity: 0.9;
-  }
-}
+@import "../../styles/colors.scss";
 
 .login {
   background-color: $background;
@@ -31,7 +7,6 @@ button {
   height: 100vh;
   justify-content: space-between;
 
-  
   .form {
     display: flex;
     flex-direction: column;
@@ -41,35 +16,29 @@ button {
     border-radius: 0.8rem;
     align-self: center;
     box-shadow: 0px 1px 8px -1px transparentize($black, 0.8);
-  
-    h2{
-      color:$primaryDark;
+
+    h2 {
+      color: $primaryDark;
       text-align: center;
       font-size: 2rem;
       text-transform: uppercase;
     }
 
-
-   
-
-    .submit{
+    .submit {
       margin-top: 3.2rem;
     }
 
-    .link{
-      text-align:center;
-      color:$primary;
+    .link {
+      text-align: center;
+      color: $primary;
       font-size: 1.4rem;
       text-transform: lowercase;
       margin-top: 1.6rem;
       cursor: pointer;
 
-      &:hover{
+      &:hover {
         text-decoration: underline;
       }
     }
-
-   
   }
-  
 }
