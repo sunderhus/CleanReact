@@ -3,9 +3,11 @@ import React, { useState, useEffect, useCallback, ChangeEvent } from 'react'
 import Styles from './styles.scss'
 import FormContext from '../../contexts/form'
 import { Validation } from '@/presentation/protocols/validation'
+import { Authentication } from '@/domain/usecases'
 
 type Props = {
   validation: Validation
+  authentication: Authentication
 }
 
 type FormState ={
@@ -19,7 +21,7 @@ type FormState ={
   }
 }
 
-const Login: React.FC<Props> = ({ validation }: Props) => {
+const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
   const [state, setState] = useState<FormState>({
     isLoading: false,
     email: '',
@@ -31,10 +33,15 @@ const Login: React.FC<Props> = ({ validation }: Props) => {
     }
   })
 
-  const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     setState({ ...state, isLoading: true })
-  }, [])
+
+    await authentication.auth({
+      email: state.email,
+      password: state.password
+    })
+  }
 
   useEffect(() => {
     setState({
