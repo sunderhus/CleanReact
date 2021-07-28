@@ -4,7 +4,7 @@ import { cleanup, fireEvent, render, RenderResult, waitFor } from '@testing-libr
 import Login from './index'
 import { AccountModel } from '@/domain/models'
 import { Authentication, AuthenticationParams } from '@/domain/usecases'
-import { ValidationStub } from '@/presentation/test'
+import { AuthenticationSpy, ValidationStub } from '@/presentation/test'
 import { mockAccountModel } from '@/domain/test'
 
 type SutTypes = {
@@ -14,16 +14,6 @@ type SutTypes = {
 
 type SutParams = {
   validationError: string
-}
-
-class AuthenticationSpy implements Authentication {
-  account = mockAccountModel()
-  params: AuthenticationParams
-
-  async auth (params: AuthenticationParams): Promise<AccountModel> {
-    this.params = params
-    return Promise.resolve(this.account)
-  }
 }
 
 const makeSut = (params?: SutParams): SutTypes => {
