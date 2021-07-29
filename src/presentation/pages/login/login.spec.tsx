@@ -1,12 +1,10 @@
 import React from 'react'
-import faker from 'faker'
-import { act, cleanup, fireEvent, getByTestId, render, RenderResult, waitFor } from '@testing-library/react'
-import Login from './index'
-import { AccountModel } from '@/domain/models'
-import { Authentication, AuthenticationParams } from '@/domain/usecases'
-import { AuthenticationSpy, ValidationStub } from '@/presentation/test'
-import { mockAccountModel } from '@/domain/test'
+import 'jest-localstorage-mock'
 import { InvalidCredentialsError } from '@/domain/Errors'
+import { AuthenticationSpy, ValidationStub } from '@/presentation/test'
+import { act, cleanup, fireEvent, render, RenderResult } from '@testing-library/react'
+import faker from 'faker'
+import Login from './index'
 
 type SutTypes = {
   sut: RenderResult
@@ -60,6 +58,10 @@ const simulateStatusForField = (sut: RenderResult, fieldName: string, validation
 
 describe('Login Component', () => {
   afterEach(cleanup)
+
+  beforeEach(() => {
+    localStorage.clear()
+  })
 
   test('Should not render Spinner and erro on start', () => {
     const { sut } = makeSut()
@@ -182,5 +184,15 @@ describe('Login Component', () => {
     const mainError = await sut.findByTestId('main-error')
     expect(mainError.textContent).toBe(error.message)
     expect(errorWrap.childElementCount).toBe(1)
+  })
+
+  test('Should add accessToken to localStorage on success', async () => {
+    const { sut, authenticationSpy } = makeSut()
+
+    simulateValidSubmit(sut)
+
+    await sut.findByTestId('form')
+
+    expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', authenticationSpy.account.accessToken)
   })
 })
