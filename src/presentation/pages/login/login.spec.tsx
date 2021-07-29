@@ -1,11 +1,12 @@
 import React from 'react'
 import faker from 'faker'
-import { cleanup, fireEvent, render, RenderResult, waitFor } from '@testing-library/react'
+import { act, cleanup, fireEvent, getByTestId, render, RenderResult, waitFor } from '@testing-library/react'
 import Login from './index'
 import { AccountModel } from '@/domain/models'
 import { Authentication, AuthenticationParams } from '@/domain/usecases'
 import { AuthenticationSpy, ValidationStub } from '@/presentation/test'
 import { mockAccountModel } from '@/domain/test'
+import { InvalidCredentialsError } from '@/domain/Errors'
 
 type SutTypes = {
   sut: RenderResult
@@ -29,11 +30,16 @@ const makeSut = (params?: SutParams): SutTypes => {
 
 const populatePasswordField = (sut: RenderResult, password = faker.internet.password()): void => {
   const passwordInput = sut.getByTestId('password')
-  fireEvent.input(passwordInput, { target: { value: password } })
+
+  act(() => {
+    fireEvent.input(passwordInput, { target: { value: password } })
+  })
 }
 const populateEmailField = (sut: RenderResult, email = faker.internet.email()): void => {
   const emailInput = sut.getByTestId('email')
-  fireEvent.input(emailInput, { target: { value: email } })
+  act(() => {
+    fireEvent.input(emailInput, { target: { value: email } })
+  })
 }
 
 const simulateValidSubmit = (sut: RenderResult, email = faker.internet.email(), password = faker.internet.password()): void => {
@@ -41,6 +47,7 @@ const simulateValidSubmit = (sut: RenderResult, email = faker.internet.email(), 
 
   populateEmailField(sut, email)
   populatePasswordField(sut, password)
+
   fireEvent.click(submitButton)
 }
 
@@ -152,5 +159,28 @@ describe('Login Component', () => {
     simulateValidSubmit(sut)
 
     expect(authenticationSpy.callsCount).toBe(1)
+  })
+
+  test('Should not call Authentication if form is invalid', () => {
+    const validationError = faker.lorem.words(2)
+    const { sut, authenticationSpy } = makeSut({ validationError })
+    populateEmailField(sut)
+
+    fireEvent.submit(sut.getByTestId('form'))
+
+    expect(authenticationSpy.callsCount).toBe(0)
+  })
+
+  test('Should present error if Authentication fails', async () => {
+    const { sut, authenticationSpy } = makeSut()
+    const error = new InvalidCredentialsError()
+    jest.spyOn(authenticationSpy, 'auth').mockReturnValueOnce(Promise.reject(error))
+
+    await act(async () => await waitFor(() => simulateValidSubmit(sut)))
+
+    const errorWrap = sut.getByTestId('error-wrap')
+    const mainError = sut.getByTestId('main-error')
+    expect(mainError.textContent).toBe(error.message)
+    expect(errorWrap.childElementCount).toBe(1)
   })
 })
