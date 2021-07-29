@@ -5,6 +5,7 @@ import FormContext from '../../contexts/form'
 import { Validation } from '@/presentation/protocols/validation'
 import { Authentication } from '@/domain/usecases'
 import { InvalidCredentialsError } from '@/domain/Errors'
+import { Link } from 'react-router-dom'
 
 type Props = {
   validation: Validation
@@ -85,7 +86,7 @@ const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
           <Input type="email" name="email" placeholder="Digite seu E-mail" />
           <Input type="password" name="password" placeholder="Digite sua senha" />
           <button data-testid="submit" disabled={!!state.errors.email || !!state.errors.password} className={Styles.submit} type="submit">Entrar</button>
-          <span className={Styles.link}>Criar Conta</span>
+          <Link data-testid="signup" to="/signup" className={Styles.link}>Criar Conta</Link>
           <FormStatus />
         </form>
       </FormContext.Provider>
