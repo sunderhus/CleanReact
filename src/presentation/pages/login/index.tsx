@@ -4,6 +4,7 @@ import Styles from './styles.scss'
 import FormContext from '../../contexts/form'
 import { Validation } from '@/presentation/protocols/validation'
 import { Authentication } from '@/domain/usecases'
+import { InvalidCredentialsError } from '@/domain/Errors'
 
 type Props = {
   validation: Validation
@@ -35,20 +36,31 @@ const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
-    if (state.errors.email || state.errors.password) {
-      return
+    try {
+      if (state.errors.email || state.errors.password) {
+        return
+      }
+
+      if (state.isLoading) {
+        return
+      }
+
+      setState({ ...state, isLoading: true })
+
+      await authentication.auth({
+        email: state.email,
+        password: state.password
+      })
+    } catch (error) {
+      setState({
+        ...state,
+        isLoading: false,
+        errors: {
+          ...state.errors,
+          main: error.message
+        }
+      })
     }
-
-    if (state.isLoading) {
-      return
-    }
-
-    setState({ ...state, isLoading: true })
-
-    await authentication.auth({
-      email: state.email,
-      password: state.password
-    })
   }
 
   useEffect(() => {
