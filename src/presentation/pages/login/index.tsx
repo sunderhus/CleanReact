@@ -5,7 +5,7 @@ import FormContext from '../../contexts/form'
 import { Validation } from '@/presentation/protocols/validation'
 import { Authentication } from '@/domain/usecases'
 import { InvalidCredentialsError } from '@/domain/Errors'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 type Props = {
   validation: Validation
@@ -35,6 +35,8 @@ const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
     }
   })
 
+  const history = useHistory()
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     try {
@@ -54,6 +56,8 @@ const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
       })
 
       localStorage.setItem('accessToken', account.accessToken)
+
+      history.replace('/')
     } catch (error) {
       setState({
         ...state,
