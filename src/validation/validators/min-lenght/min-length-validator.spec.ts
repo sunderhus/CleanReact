@@ -12,7 +12,7 @@ describe('MinLengthValidation', () => {
   test('Should return error if value length is invalid', () => {
     const sut = makeSut()
 
-    const error = sut.validate('123')
+    const error = sut.validate(faker.datatype.string(4))
 
     expect(error).toEqual(new InvalidFieldError())
   })
@@ -20,7 +20,7 @@ describe('MinLengthValidation', () => {
   test('Should return false if value  is valid', () => {
     const sut = makeSut()
 
-    const error = sut.validate('123456')
+    const error = sut.validate(faker.datatype.string(5))
 
     expect(error).toBeFalsy()
   })
