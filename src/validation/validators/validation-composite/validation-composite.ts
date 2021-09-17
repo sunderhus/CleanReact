@@ -4,8 +4,8 @@ import { Validation } from '@/presentation/protocols/validation'
 export class ValidationComposite implements Validation {
   private constructor (private readonly validators: FieldValidation[]) { }
 
-  static build (validatiors: FieldValidation[]): ValidationComposite {
-    return new ValidationComposite(validatiors)
+  static build (validators: FieldValidation[]): ValidationComposite {
+    return new ValidationComposite(validators)
   }
 
   validate (fieldName: string, fieldValue: string): string {
