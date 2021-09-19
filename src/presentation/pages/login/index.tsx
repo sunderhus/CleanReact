@@ -1,11 +1,10 @@
-import { Footer, FormStatus, Input, LoginHeader } from '@/presentation/components'
-import React, { useState, useEffect, useCallback, ChangeEvent } from 'react'
-import Styles from './styles.scss'
-import FormContext from '../../contexts/form'
-import { Validation } from '@/presentation/protocols/validation'
 import { Authentication } from '@/domain/usecases'
-import { InvalidCredentialsError } from '@/domain/Errors'
+import { Footer, FormStatus, Input, LoginHeader } from '@/presentation/components'
+import { Validation } from '@/presentation/protocols/validation'
+import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
+import FormContext from '../../contexts/form'
+import Styles from './styles.scss'
 
 type Props = {
   validation: Validation

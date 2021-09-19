@@ -1,4 +1,4 @@
-import { mockHttpResponse } from './../../test/mock-axios'
+import { mockHttpResponse } from '@/infra/test/mock-axios'
 import { mockPostRequest } from '@/data/test'
 import { mockAxios } from '@/infra/test'
 import { AxiosStatic } from 'axios'
