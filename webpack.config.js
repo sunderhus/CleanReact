@@ -1,4 +1,6 @@
+/* eslint-disable quote-props */
 const path = require('path')
+const webpack = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
@@ -45,5 +47,10 @@ module.exports = {
     react: 'React',
     'react-dom': 'ReactDOM'
   },
-  plugins: [new CleanWebpackPlugin()]
+  plugins: [
+    new CleanWebpackPlugin(),
+    new webpack.EnvironmentPlugin({
+      'API_URL': 'http://fordevs.herokuapp.com/api'
+    })
+  ]
 }
