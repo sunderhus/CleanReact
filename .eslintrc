@@ -15,6 +15,7 @@
   "rules": {
     "@typescript-eslint/consistent-type-definitions":"off",
     "@typescript-eslint/strict-boolean-expressions":"off",
+    "@typescript-eslint/comma-spacing":"off",
     "@typescript-eslint/camelcase":0,
     "@typescript-eslint/no-unused-vars":"off",
     "react/jsx-uses-react":"error",
