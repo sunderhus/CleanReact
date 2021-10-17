@@ -1,16 +1,17 @@
 import { InvalidCredentialsError } from '@/domain/Errors'
 import { Login } from '@/presentation/pages'
-import { AuthenticationSpy, ValidationStub } from '@/presentation/test'
+import { AuthenticationSpy, ValidationStub, SaveAccessTokenMock } from '@/presentation/test'
+
 import { act, cleanup, fireEvent, render, RenderResult } from '@testing-library/react'
 import faker from 'faker'
 import { createMemoryHistory } from 'history'
-import 'jest-localstorage-mock'
 import React from 'react'
 import { Router } from 'react-router-dom'
 
 type SutTypes = {
   sut: RenderResult
   authenticationSpy: AuthenticationSpy
+  saveAccessTokenMock: SaveAccessTokenMock
 }
 
 type SutParams = {
@@ -22,17 +23,23 @@ const history = createMemoryHistory({ initialEntries: ['/login'] })
 const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const authenticationSpy = new AuthenticationSpy()
+  const saveAccessTokenMock = new SaveAccessTokenMock()
   validationStub.errorMessage = params?.validationError
 
   const sut = render(
     <Router history={history}>
-      <Login validation={validationStub} authentication={authenticationSpy} />
+      <Login
+        validation={validationStub}
+        authentication={authenticationSpy}
+        saveAccessToken={saveAccessTokenMock}
+      />
     </Router>
   )
 
   return {
     sut,
-    authenticationSpy
+    authenticationSpy,
+    saveAccessTokenMock
   }
 }
 
@@ -89,10 +96,6 @@ const testButtonIsDisabled = (sut: RenderResult, testId: string, isDisabled: boo
 
 describe('Login Component', () => {
   afterEach(cleanup)
-
-  beforeEach(() => {
-    localStorage.clear()
-  })
 
   test('Should not render Spinner and erro on start', () => {
     const { sut } = makeSut()
@@ -209,14 +212,14 @@ describe('Login Component', () => {
     await testElementText(sut, 'main-error', error.message)
   })
 
-  test('Should add accessToken to localStorage on success and navigate to main page', async () => {
-    const { sut, authenticationSpy } = makeSut()
+  test('Should call SaveAccessToken on success and navigate to main page', async () => {
+    const { sut, authenticationSpy, saveAccessTokenMock } = makeSut()
 
     await simulateValidSubmit(sut)
 
     await sut.findByTestId('form')
 
-    expect(localStorage.setItem).toHaveBeenCalledWith('accessToken', authenticationSpy.account.accessToken)
+    expect(saveAccessTokenMock.accessToken).toBe(authenticationSpy.account.accessToken)
     expect(history.length).toBe(1)
     expect(history.location.pathname).toBe('/')
   })
