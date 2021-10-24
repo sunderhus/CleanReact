@@ -2,7 +2,8 @@
 @import "../../styles/colors.scss";
 
 input[type="password"],
-input[type="email"] {
+input[type="email"],
+input[type="text"]{
   border: 1px solid $black;
   line-height: 4rem;
   border-radius: 0.4rem;
