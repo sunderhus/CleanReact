@@ -8,5 +8,5 @@ export type AddAccountParams = {
 };
 
 export interface AddAccount {
-  auth: (params: AddAccountParams) => Promise<AccountModel>
+  add: (params: AddAccountParams) => Promise<AccountModel>
 }
