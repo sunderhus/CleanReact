@@ -1,12 +1,9 @@
 import { createContext } from 'react'
 
-type FormState ={
+type FormState = {
+  [key: string]: string | boolean | {[key: string]: string}
   isLoading: boolean
-  email: string
-  password: string
   errors: {
-    email: string
-    password: string
     main: string
   }
 }
