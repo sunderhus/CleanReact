@@ -1,14 +1,6 @@
 import { InvalidFieldError } from '@/validation/errors'
-import { FieldValidation } from '@/validation/protocolos/field-validation'
 import faker from 'faker'
-
-class CompareFieldsValidation implements FieldValidation {
-  constructor (readonly field: string, private readonly valueToCompare: string) {}
-
-  validate (value: string): InvalidFieldError {
-    return value === this.valueToCompare ? null : new InvalidFieldError()
-  }
-}
+import { CompareFieldsValidation } from './compare-fields.validation'
 
 const makeSut = (valueToCompare: string = faker.random.words()): CompareFieldsValidation => new CompareFieldsValidation(faker.database.column(), valueToCompare)
 
