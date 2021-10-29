@@ -5,16 +5,32 @@ import Styles from './styles.scss'
 
 type FormState = {
   isLoading: boolean
+  name: string
+  email: string
+  password: string
+  passwordConfirmation: string
   errors: {
     main: string
+    name: string
+    email: string
+    password: string
+    passwordConfirmation: string
   }
 }
 
 const SignUp: React.FC = () => {
   const [state, setState] = useState<FormState>({
     isLoading: false,
+    name: '',
+    email: '',
+    password: '',
+    passwordConfirmation: '',
     errors: {
-      main: ''
+      main: '',
+      name: 'Campo obrigatório',
+      email: 'Campo obrigatório',
+      password: 'Campo obrigatório',
+      passwordConfirmation: 'Campo obrigatório'
     }
   })
 
@@ -28,7 +44,7 @@ const SignUp: React.FC = () => {
           <Input type="email" name="email" placeholder="Digite seu E-mail" />
           <Input type="password" name="password" placeholder="Digite sua senha" />
           <Input type="password" name="passwordConfirmation" placeholder="Confirme sua senha" />
-          <button className={Styles.submit} type="submit">Criar Conta</button>
+          <button data-testid="submit" className={Styles.submit} type="submit" disabled>Criar Conta</button>
           <span className={Styles.link}>Voltar ao login</span>
           <FormStatus />
         </form>
