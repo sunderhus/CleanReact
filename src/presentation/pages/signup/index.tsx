@@ -10,7 +10,7 @@ type FormState = {
   }
 }
 
-const SignIn: React.FC = () => {
+const SignUp: React.FC = () => {
   const [state, setState] = useState<FormState>({
     isLoading: false,
     errors: {
@@ -38,4 +38,4 @@ const SignIn: React.FC = () => {
   )
 }
 
-export default SignIn
+export default SignUp
