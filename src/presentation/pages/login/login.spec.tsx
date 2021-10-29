@@ -1,6 +1,6 @@
 import { InvalidCredentialsError } from '@/domain/Errors'
 import { Login } from '@/presentation/pages'
-import { AuthenticationSpy, ValidationStub, SaveAccessTokenMock } from '@/presentation/test'
+import { AuthenticationSpy, ValidationStub, SaveAccessTokenMock, Helper } from '@/presentation/test'
 
 import { act, cleanup, fireEvent, render, RenderResult } from '@testing-library/react'
 import faker from 'faker'
@@ -66,32 +66,15 @@ const simulateValidSubmit = async (sut: RenderResult, email = faker.internet.ema
   fireEvent.submit(form)
 }
 
-const testStatusForField = (sut: RenderResult, fieldName: string, validationError?: string): void => {
-  const fieldStatus = sut.getByTestId(`${fieldName}-status`)
-
-  expect(fieldStatus.title).toBe(validationError || 'Tudo certo!')
-  expect(fieldStatus.textContent).toBe(validationError ? '🔴' : '🟢')
-}
-
 const testElementExists = (sut: RenderResult, testId: string): void => {
   const element = sut.getByTestId(testId)
 
   expect(element).toBeTruthy()
 }
 
-const testElementChildCount = async (sut: RenderResult, testId: string, count: number): Promise<void> => {
-  const wrapElement = await sut.findByTestId(testId)
-  expect(wrapElement.childElementCount).toBe(count)
-}
-
 const testElementText = async (sut: RenderResult, testId: string, text: string): Promise<void> => {
   const element = await sut.findByTestId('main-error')
   expect(element.textContent).toBe(text)
-}
-
-const testButtonIsDisabled = (sut: RenderResult, testId: string, isDisabled: boolean): void => {
-  const button = sut.getByTestId(testId) as HTMLButtonElement
-  expect(button.disabled).toBe(isDisabled)
 }
 
 describe('Login Component', () => {
@@ -108,21 +91,21 @@ describe('Login Component', () => {
     const validationError = faker.lorem.words(2)
     const { sut } = makeSut({ validationError })
 
-    testButtonIsDisabled(sut, 'submit', true)
+    Helper.testButtonIsDisabled(sut, 'submit', true)
   })
 
   test('Should start email field with default title', () => {
     const validationError = faker.random.words(2)
     const { sut } = makeSut({ validationError })
 
-    testStatusForField(sut, 'email', validationError)
+    Helper.testStatusForField(sut, 'email', validationError)
   })
 
   test('Should start password field with default title', () => {
     const validationError = faker.lorem.words(2)
     const { sut } = makeSut({ validationError })
 
-    testStatusForField(sut, 'password', validationError)
+    Helper.testStatusForField(sut, 'password', validationError)
   })
 
   test('Should show email error when Validation fails', () => {
@@ -130,7 +113,7 @@ describe('Login Component', () => {
     const { sut } = makeSut({ validationError })
     populateEmailField(sut)
 
-    testStatusForField(sut, 'email', validationError)
+    Helper.testStatusForField(sut, 'email', validationError)
   })
 
   test('Should show password error when Validation fails', () => {
@@ -139,7 +122,7 @@ describe('Login Component', () => {
 
     populatePasswordField(sut)
 
-    testStatusForField(sut, 'password', validationError)
+    Helper.testStatusForField(sut, 'password', validationError)
   })
 
   test('Should show valid email state when Validation succeeds', () => {
@@ -147,7 +130,7 @@ describe('Login Component', () => {
 
     populateEmailField(sut)
 
-    testStatusForField(sut, 'email')
+    Helper.testStatusForField(sut, 'email')
   })
 
   test('Should show valid password state when Validation succeeds', () => {
@@ -155,7 +138,7 @@ describe('Login Component', () => {
 
     populatePasswordField(sut)
 
-    testStatusForField(sut, 'password')
+    Helper.testStatusForField(sut, 'password')
   })
 
   test('Should enable submit buton when form is valid', () => {
@@ -164,7 +147,7 @@ describe('Login Component', () => {
     populateEmailField(sut)
     populatePasswordField(sut)
 
-    testButtonIsDisabled(sut, 'submit', false)
+    Helper.testButtonIsDisabled(sut, 'submit', false)
   })
 
   test('Should show spinner on submit', async () => {
@@ -208,7 +191,7 @@ describe('Login Component', () => {
 
     await act(async () => simulateValidSubmit(sut))
 
-    await testElementChildCount(sut, 'error-wrap', 1)
+    await Helper.testElementChildCount(sut, 'error-wrap', 1)
     await testElementText(sut, 'main-error', error.message)
   })
 
@@ -231,7 +214,7 @@ describe('Login Component', () => {
 
     await act(async () => simulateValidSubmit(sut))
 
-    await testElementChildCount(sut, 'error-wrap', 1)
+    await Helper.testElementChildCount(sut, 'error-wrap', 1)
     await testElementText(sut, 'main-error', error.message)
   })
 
