@@ -1,5 +1,6 @@
 import { Footer, FormStatus, Input, LoginHeader } from '@/presentation/components'
-import React, { useState } from 'react'
+import { Validation } from '@/presentation/protocols/validation'
+import React, { useEffect, useState } from 'react'
 import FormContext from '../../contexts/form'
 import Styles from './styles.scss'
 
@@ -18,7 +19,11 @@ type FormState = {
   }
 }
 
-const SignUp: React.FC = () => {
+type Props = {
+  validation: Validation
+}
+
+const SignUp: React.FC<Props> = ({ validation }: Props) => {
   const [state, setState] = useState<FormState>({
     isLoading: false,
     name: '',
@@ -27,13 +32,22 @@ const SignUp: React.FC = () => {
     passwordConfirmation: '',
     errors: {
       main: '',
-      name: 'Campo obrigatório',
+      name: '',
       email: 'Campo obrigatório',
       password: 'Campo obrigatório',
       passwordConfirmation: 'Campo obrigatório'
     }
   })
 
+  useEffect(() => {
+    setState({
+      ...state,
+      errors: {
+        ...state.errors,
+        name: validation.validate('name', state.name)
+      }
+    })
+  }, [])
   return (
     <div className={Styles.login}>
       <LoginHeader />
