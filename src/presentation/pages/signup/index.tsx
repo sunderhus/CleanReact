@@ -34,7 +34,7 @@ const SignUp: React.FC<Props> = ({ validation }: Props) => {
       main: '',
       name: '',
       email: '',
-      password: 'Campo obrigatório',
+      password: '',
       passwordConfirmation: 'Campo obrigatório'
     }
   })
@@ -45,10 +45,11 @@ const SignUp: React.FC<Props> = ({ validation }: Props) => {
       errors: {
         ...state.errors,
         name: validation.validate('name', state.name),
-        email: validation.validate('email', state.email)
+        email: validation.validate('email', state.email),
+        password: validation.validate('password', state.password)
       }
     })
-  }, [state.name, state.email])
+  }, [state.name, state.email, state.password])
   return (
     <div className={Styles.login}>
       <LoginHeader />
