@@ -33,7 +33,7 @@ const SignUp: React.FC<Props> = ({ validation }: Props) => {
     errors: {
       main: '',
       name: '',
-      email: 'Campo obrigatório',
+      email: '',
       password: 'Campo obrigatório',
       passwordConfirmation: 'Campo obrigatório'
     }
@@ -44,7 +44,8 @@ const SignUp: React.FC<Props> = ({ validation }: Props) => {
       ...state,
       errors: {
         ...state.errors,
-        name: validation.validate('name', state.name)
+        name: validation.validate('name', state.name),
+        email: validation.validate('email', state.email)
       }
     })
   }, [])
