@@ -1,7 +1,7 @@
 import { InvalidCredentialsError } from '@/domain/Errors'
 import { Login } from '@/presentation/pages'
-import { AuthenticationSpy, ValidationStub, SaveAccessTokenMock, Helper } from '@/presentation/test'
-
+import { AuthenticationSpy, Helper, SaveAccessTokenMock, ValidationStub } from '@/presentation/test'
+import { populateField } from '@/presentation/test/form-helper'
 import { act, cleanup, fireEvent, render, RenderResult } from '@testing-library/react'
 import faker from 'faker'
 import { createMemoryHistory } from 'history'
@@ -43,24 +43,9 @@ const makeSut = (params?: SutParams): SutTypes => {
   }
 }
 
-const populatePasswordField = (sut: RenderResult, password = faker.internet.password()): void => {
-  const passwordInput = sut.getByTestId('password')
-
-  act(() => {
-    fireEvent.input(passwordInput, { target: { value: password } })
-  })
-}
-
-const populateEmailField = (sut: RenderResult, email = faker.internet.email()): void => {
-  const emailInput = sut.getByTestId('email')
-  act(() => {
-    fireEvent.input(emailInput, { target: { value: email } })
-  })
-}
-
 const simulateValidSubmit = async (sut: RenderResult, email = faker.internet.email(), password = faker.internet.password()): Promise<void> => {
-  populateEmailField(sut, email)
-  populatePasswordField(sut, password)
+  populateField(sut, 'email', email)
+  populateField(sut, 'password', password)
   const form = await sut.findByTestId('form')
 
   fireEvent.submit(form)
@@ -111,7 +96,7 @@ describe('Login Component', () => {
   test('Should show email error when Validation fails', () => {
     const validationError = faker.lorem.words(2)
     const { sut } = makeSut({ validationError })
-    populateEmailField(sut)
+    populateField(sut, 'email')
 
     Helper.testStatusForField(sut, 'email', validationError)
   })
@@ -120,7 +105,7 @@ describe('Login Component', () => {
     const validationError = faker.lorem.words(2)
     const { sut } = makeSut({ validationError })
 
-    populatePasswordField(sut)
+    populateField(sut, 'password')
 
     Helper.testStatusForField(sut, 'password', validationError)
   })
@@ -128,7 +113,7 @@ describe('Login Component', () => {
   test('Should show valid email state when Validation succeeds', () => {
     const { sut } = makeSut()
 
-    populateEmailField(sut)
+    populateField(sut, 'email')
 
     Helper.testStatusForField(sut, 'email')
   })
@@ -136,7 +121,7 @@ describe('Login Component', () => {
   test('Should show valid password state when Validation succeeds', () => {
     const { sut } = makeSut()
 
-    populatePasswordField(sut)
+    populateField(sut, 'password')
 
     Helper.testStatusForField(sut, 'password')
   })
@@ -144,8 +129,8 @@ describe('Login Component', () => {
   test('Should enable submit buton when form is valid', () => {
     const { sut } = makeSut()
 
-    populateEmailField(sut)
-    populatePasswordField(sut)
+    populateField(sut, 'email')
+    populateField(sut, 'password')
 
     Helper.testButtonIsDisabled(sut, 'submit', false)
   })
