@@ -48,7 +48,7 @@ const SignUp: React.FC<Props> = ({ validation }: Props) => {
         email: validation.validate('email', state.email)
       }
     })
-  }, [])
+  }, [state.name, state.email])
   return (
     <div className={Styles.login}>
       <LoginHeader />
