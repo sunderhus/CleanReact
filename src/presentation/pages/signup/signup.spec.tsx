@@ -37,9 +37,6 @@ const simutaleValidSubmit = async (
   fireEvent.submit(signupForm)
   await waitFor(() => signupForm)
 }
-const testElementExists = (sut: RenderResult, testId: string): void => {
-  expect(sut.getByTestId('spinner')).toBeTruthy()
-}
 
 describe('SignUp Component', () => {
   test('Should start with initial state', async () => {
@@ -112,6 +109,6 @@ describe('SignUp Component', () => {
   test('Should show loading on valid submit', async () => {
     const { sut } = makeSut()
     await simutaleValidSubmit(sut)
-    testElementExists(sut, 'spinner')
+    Helper.testElementExists(sut, 'spinner')
   })
 })
