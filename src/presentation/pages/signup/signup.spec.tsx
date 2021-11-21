@@ -1,4 +1,5 @@
-import { Helper, ValidationStub } from '@/presentation/test'
+import { AddAccount } from '@/domain/usecases'
+import { Helper, ValidationStub, AddAccountSpy } from '@/presentation/test'
 import { fireEvent, render, RenderResult, waitFor } from '@testing-library/react'
 import faker from 'faker'
 import React from 'react'
@@ -6,20 +7,23 @@ import SignUp from '.'
 
 type SutTypes = {
   sut: RenderResult
+  addAccountSpy: AddAccountSpy
+
 }
 type SutParams = {
   validationError: string
 }
 const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
+  const addAccountSpy = new AddAccountSpy()
   validationStub.errorMessage = params?.validationError
   const sut = render(
-    <SignUp validation={validationStub} />
+    <SignUp validation={validationStub} addAccount={addAccountSpy} />
   )
 
   return {
-    sut
-
+    sut,
+    addAccountSpy
   }
 }
 const simutaleValidSubmit = async (
@@ -110,5 +114,20 @@ describe('SignUp Component', () => {
     const { sut } = makeSut()
     await simutaleValidSubmit(sut)
     Helper.testElementExists(sut, 'spinner')
+  })
+
+  test('Should call AddAccount with correct values', async () => {
+    const { sut, addAccountSpy } = makeSut()
+    const name = faker.internet.userName()
+    const email = faker.internet.email()
+    const password = faker.internet.password()
+    await simutaleValidSubmit(sut, name, email, password)
+
+    expect(addAccountSpy.params).toEqual({
+      name: name,
+      email: email,
+      password: password,
+      passwordConfirmation: password
+    })
   })
 })
