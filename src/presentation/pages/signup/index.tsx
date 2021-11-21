@@ -1,3 +1,4 @@
+import { AddAccount } from '@/domain/usecases'
 import { Footer, FormStatus, Input, LoginHeader } from '@/presentation/components'
 import { Validation } from '@/presentation/protocols/validation'
 import React, { FormEvent, useCallback, useEffect, useState } from 'react'
@@ -21,9 +22,10 @@ type FormState = {
 
 type Props = {
   validation: Validation
+  addAccount: AddAccount
 }
 
-const SignUp: React.FC<Props> = ({ validation }: Props) => {
+const SignUp: React.FC<Props> = ({ validation, addAccount }: Props) => {
   const [state, setState] = useState<FormState>({
     isLoading: false,
     name: '',
@@ -38,10 +40,12 @@ const SignUp: React.FC<Props> = ({ validation }: Props) => {
       passwordConfirmation: ''
     }
   })
-  const handleSubmit = useCallback((event: FormEvent) => {
+  const handleSubmit = useCallback(async (event: FormEvent) => {
     event.preventDefault()
     setState({ ...state, isLoading: true })
-  }, [])
+
+    await addAccount.add({ name: state.name, email: state.email, password: state.password, passwordConfirmation: state.passwordConfirmation })
+  }, [state])
 
   useEffect(() => {
     setState({
