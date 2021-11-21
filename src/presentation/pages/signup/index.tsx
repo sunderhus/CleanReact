@@ -1,6 +1,6 @@
 import { Footer, FormStatus, Input, LoginHeader } from '@/presentation/components'
 import { Validation } from '@/presentation/protocols/validation'
-import React, { useEffect, useState } from 'react'
+import React, { FormEvent, useCallback, useEffect, useState } from 'react'
 import FormContext from '../../contexts/form'
 import Styles from './styles.scss'
 
@@ -38,6 +38,10 @@ const SignUp: React.FC<Props> = ({ validation }: Props) => {
       passwordConfirmation: ''
     }
   })
+  const handleSubmit = useCallback((event: FormEvent) => {
+    event.preventDefault()
+    setState({ ...state, isLoading: true })
+  }, [])
 
   useEffect(() => {
     setState({
@@ -54,8 +58,8 @@ const SignUp: React.FC<Props> = ({ validation }: Props) => {
   return (
     <div className={Styles.login}>
       <LoginHeader />
-      <FormContext.Provider value={{ state: state, setState }}>
-        <form className={Styles.form} autoComplete="off" >
+      <FormContext.Provider value={{ state: state, setState }} >
+        <form className={Styles.form} autoComplete="off" onSubmit={handleSubmit} data-testid="signupForm">
           <h2>Cadastro</h2>
           <Input type="text" name="name" placeholder="Digite seu Nome" />
           <Input type="email" name="email" placeholder="Digite seu E-mail" />
