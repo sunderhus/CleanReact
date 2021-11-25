@@ -42,15 +42,19 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }: Props) => {
   })
   const handleSubmit = useCallback(async (event: FormEvent) => {
     event.preventDefault()
-    const hasValidationErros = !!state.errors.name || !!state.errors.email || !!state.errors.password || !!state.errors.passwordConfirmation
+    try {
+      const hasValidationErros = !!state.errors.name || !!state.errors.email || !!state.errors.password || !!state.errors.passwordConfirmation
 
-    if (state.isLoading || hasValidationErros) {
-      return
+      if (state.isLoading || hasValidationErros) {
+        return
+      }
+
+      setState({ ...state, isLoading: true })
+
+      await addAccount.add({ name: state.name, email: state.email, password: state.password, passwordConfirmation: state.passwordConfirmation })
+    } catch (error) {
+      setState({ ...state, errors: { ...state, main: error.message } })
     }
-
-    setState({ ...state, isLoading: true })
-
-    await addAccount.add({ name: state.name, email: state.email, password: state.password, passwordConfirmation: state.passwordConfirmation })
   }, [state])
 
   useEffect(() => {
