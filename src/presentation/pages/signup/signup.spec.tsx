@@ -1,3 +1,4 @@
+import { EmailInUseError } from '@/domain/Errors'
 import { AddAccount } from '@/domain/usecases'
 import { Helper, ValidationStub, AddAccountSpy } from '@/presentation/test'
 import { fireEvent, render, RenderResult, waitFor } from '@testing-library/react'
@@ -146,5 +147,14 @@ describe('SignUp Component', () => {
     await simutaleValidSubmit(sut)
 
     expect(addAccountSpy.callsCount).toBe(0)
+  })
+
+  test('Should present a error message and hide load spinner when AddAccount fails', async () => {
+    const { sut, addAccountSpy } = makeSut()
+    const error = new EmailInUseError()
+    jest.spyOn(addAccountSpy, 'add').mockRejectedValueOnce(error)
+    await simutaleValidSubmit(sut)
+
+    await Helper.testElementChildCount(sut, 'error-wrap', 1)
   })
 })
