@@ -42,8 +42,9 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }: Props) => {
   })
   const handleSubmit = useCallback(async (event: FormEvent) => {
     event.preventDefault()
+    const hasValidationErros = !!state.errors.name || !!state.errors.email || !!state.errors.password || !!state.errors.passwordConfirmation
 
-    if (state.isLoading) {
+    if (state.isLoading || hasValidationErros) {
       return
     }
 
