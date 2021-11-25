@@ -155,6 +155,7 @@ describe('SignUp Component', () => {
     jest.spyOn(addAccountSpy, 'add').mockRejectedValueOnce(error)
     await simutaleValidSubmit(sut)
 
+    await Helper.testElementText(sut, 'main-error', error.message)
     await Helper.testElementChildCount(sut, 'error-wrap', 1)
   })
 })
