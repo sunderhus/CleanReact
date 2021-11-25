@@ -51,11 +51,6 @@ const simulateValidSubmit = async (sut: RenderResult, email = faker.internet.ema
   fireEvent.submit(form)
 }
 
-const testElementText = async (sut: RenderResult, testId: string, text: string): Promise<void> => {
-  const element = await sut.findByTestId('main-error')
-  expect(element.textContent).toBe(text)
-}
-
 describe('Login Component', () => {
   afterEach(cleanup)
 
@@ -171,7 +166,7 @@ describe('Login Component', () => {
     await act(async () => simulateValidSubmit(sut))
 
     await Helper.testElementChildCount(sut, 'error-wrap', 1)
-    await testElementText(sut, 'main-error', error.message)
+    await Helper.testElementText(sut, 'main-error', error.message)
   })
 
   test('Should call SaveAccessToken on success and navigate to main page', async () => {
@@ -194,7 +189,7 @@ describe('Login Component', () => {
     await act(async () => simulateValidSubmit(sut))
 
     await Helper.testElementChildCount(sut, 'error-wrap', 1)
-    await testElementText(sut, 'main-error', error.message)
+    await Helper.testElementText(sut, 'main-error', error.message)
   })
 
   test('should go to signUp page', () => {

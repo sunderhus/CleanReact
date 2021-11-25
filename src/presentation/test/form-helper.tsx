@@ -28,3 +28,8 @@ export const populateField = (sut: RenderResult, fieldName: string, value = fake
 export const testElementExists = (sut: RenderResult, testId: string): void => {
   expect(sut.getByTestId(testId)).toBeTruthy()
 }
+
+export const testElementText = async (sut: RenderResult, testId: string, text: string): Promise<void> => {
+  const element = await sut.findByTestId(testId)
+  expect(element.textContent).toBe(text)
+}
