@@ -5,9 +5,9 @@ export class EmailValidation implements FieldValidation {
   constructor (readonly field: string) {
   }
 
-  validate (value: string): Error {
+  validate (schema: object): Error {
     const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
-    const isEmpty = !value
-    return isEmpty || emailRegex.test(value) ? null : new InvalidFieldError()
+    const isEmpty = !schema[this.field]
+    return isEmpty || emailRegex.test(schema[this.field]) ? null : new InvalidFieldError()
   }
 }

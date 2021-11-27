@@ -8,11 +8,11 @@ export class ValidationComposite implements Validation {
     return new ValidationComposite(validators)
   }
 
-  validate (fieldName: string, fieldValue: string): string {
-    const validators = this.validators.filter(validator => validator.field === fieldName)
+  validate (field: string, schema: object): string {
+    const validators = this.validators.filter(validator => validator.field === field)
 
     for (const validator of validators) {
-      const error: Error = validator.validate(fieldValue)
+      const error: Error = validator.validate(schema)
       if (error) {
         return error.message
       }

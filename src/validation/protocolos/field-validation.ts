@@ -1,4 +1,4 @@
 export interface FieldValidation{
   field: string
-  validate: (value: string) => Error
+  validate: (schema: object) => Error
 }
