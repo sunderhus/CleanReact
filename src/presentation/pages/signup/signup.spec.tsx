@@ -1,12 +1,11 @@
 import { EmailInUseError } from '@/domain/Errors'
-import { AddAccount } from '@/domain/usecases'
-import { Helper, ValidationStub, AddAccountSpy, SaveAccessTokenMock } from '@/presentation/test'
+import { AddAccountSpy, Helper, SaveAccessTokenMock, ValidationStub } from '@/presentation/test'
 import { fireEvent, render, RenderResult, waitFor } from '@testing-library/react'
 import faker from 'faker'
-import React from 'react'
-import SignUp from '.'
 import { createMemoryHistory } from 'history'
+import React from 'react'
 import { Router } from 'react-router-dom'
+import SignUp from '.'
 
 type SutTypes = {
   sut: RenderResult
@@ -34,7 +33,7 @@ const makeSut = (params?: SutParams): SutTypes => {
     saveAccessTokenMock
   }
 }
-const simutaleValidSubmit = async (
+const simulateValidSubmit = async (
   sut: RenderResult,
   name = faker.random.word(),
   email = faker.internet.email(),
@@ -120,7 +119,7 @@ describe('SignUp Component', () => {
   })
   test('Should show loading on valid submit', async () => {
     const { sut } = makeSut()
-    await simutaleValidSubmit(sut)
+    await simulateValidSubmit(sut)
     Helper.testElementExists(sut, 'spinner')
   })
 
@@ -129,7 +128,7 @@ describe('SignUp Component', () => {
     const name = faker.internet.userName()
     const email = faker.internet.email()
     const password = faker.internet.password()
-    await simutaleValidSubmit(sut, name, email, password)
+    await simulateValidSubmit(sut, name, email, password)
 
     expect(addAccountSpy.params).toEqual({
       name: name,
@@ -141,8 +140,8 @@ describe('SignUp Component', () => {
 
   test('Should prevent to call AddAccount multiple times', async () => {
     const { sut, addAccountSpy } = makeSut()
-    await simutaleValidSubmit(sut)
-    await simutaleValidSubmit(sut)
+    await simulateValidSubmit(sut)
+    await simulateValidSubmit(sut)
 
     expect(addAccountSpy.callsCount).toBe(1)
   })
@@ -151,7 +150,7 @@ describe('SignUp Component', () => {
     const validationError = faker.random.words()
     const { sut, addAccountSpy } = makeSut({ validationError })
 
-    await simutaleValidSubmit(sut)
+    await simulateValidSubmit(sut)
 
     expect(addAccountSpy.callsCount).toBe(0)
   })
@@ -160,7 +159,7 @@ describe('SignUp Component', () => {
     const { sut, addAccountSpy } = makeSut()
     const error = new EmailInUseError()
     jest.spyOn(addAccountSpy, 'add').mockRejectedValueOnce(error)
-    await simutaleValidSubmit(sut)
+    await simulateValidSubmit(sut)
 
     await Helper.testElementText(sut, 'main-error', error.message)
     await Helper.testElementChildCount(sut, 'error-wrap', 1)
@@ -169,9 +168,20 @@ describe('SignUp Component', () => {
   test('Should call SaveAccessToken when AddAccount succeed', async () => {
     const { sut, addAccountSpy, saveAccessTokenMock } = makeSut()
 
-    await simutaleValidSubmit(sut)
+    await simulateValidSubmit(sut)
     expect(saveAccessTokenMock.accessToken).toBe(addAccountSpy.account.accessToken)
     expect(history).toHaveLength(1)
     expect(history).toHaveProperty('location.pathname', '/')
+  })
+
+  test('Should present a error if SaveAccessToken fails', async () => {
+    const { sut, saveAccessTokenMock } = makeSut()
+    const error = new EmailInUseError()
+    jest.spyOn(saveAccessTokenMock, 'save').mockRejectedValueOnce(error)
+
+    await simulateValidSubmit(sut)
+
+    await Helper.testElementChildCount(sut, 'error-wrap', 1)
+    await Helper.testElementText(sut, 'main-error', error.message)
   })
 })
