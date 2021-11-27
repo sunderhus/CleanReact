@@ -3,6 +3,7 @@ import { createContext } from 'react'
 type FormState = {
   [key: string]: string | boolean | {[key: string]: string}
   isLoading: boolean
+  isFormInvalid: boolean
   errors: {
     main: string
   }
