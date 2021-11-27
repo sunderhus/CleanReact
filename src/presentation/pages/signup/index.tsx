@@ -5,7 +5,7 @@ import { Validation } from '@/presentation/protocols/validation'
 import React, { FormEvent, useCallback, useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
-import FormContext from '../../contexts/form'
+import FormContext from '@/presentation/contexts/form'
 import Styles from './styles.scss'
 
 type FormState = {
