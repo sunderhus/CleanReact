@@ -16,5 +16,8 @@
       "@/*":["*"]
     }
   },
-  "include": ["src"],
+  "include": [
+    "src"
+  ],
+  "exclude": ["src/main/test/cypress"]
 }
