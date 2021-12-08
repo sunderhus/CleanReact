@@ -1,32 +1,76 @@
-
 @import "../../styles/colors.scss";
 
 input[type="password"],
 input[type="email"],
-input[type="text"]{
-  border: 1px solid $black;
-  line-height: 4rem;
-  border-radius: 0.4rem;
-  outline: $primaryLight;
-  padding:0 4rem 0 0.8rem;
-
+input[type="text"] {
+  border: none;
+  outline: none;
 }
 
-.inputWrap{
-  margin-top: 1.6rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+.inputWrap {
+  margin-top: 4rem;
   position: relative;
+  border-bottom: 0.2rem dashed $disabledColor;
   
-  input{
-    flex-grow: 1;
+  &[data-invalid="false"]{
+    border-color: $validColor;
+
+    &:after{
+      background: $validColor;
+    }
   }
 
-  .status{
+  &:after{
+    content: '';
+    position:absolute;
+    bottom:-0.2rem;
+    left: 0;
+    height: 0.2rem ;
+    width:100%;
+    background: $primary;
+    transform-origin: 0%;
+    transform: scaleX(0);
+    transition: transform 0.5s ease, background-color 0.5s ease;
+  }
+
+  &:focus-within{
+    border-color: transparent;
+
+    &:after{
+      transform: scaleX(1);
+    }
+
+    label{
+      transform: translateY(-2rem) scale(0.9);
+      
+    }
+  }
+
+  input {
+    width: 100%;
+    line-height: 2.4rem;
+    padding: 0rem 4rem 0rem 0.8rem;
+
+    &:not(:placeholder-shown) + label{
+        transform: translateY(-2rem) scale(0.9);
+    }
+  }
+
+  label {
+    cursor:text;
+    position: absolute;
+    font-size: 1.2rem;
+    left:0.8rem;
+    color: $disabledColor;
+    transform-origin: 0%;
+    transform: translateY(0);
+    transition: transform 0.5s ease;
+  }
+
+  .status {
     position: absolute;
     right: 0.8rem;
-    font-size: 1.2rem;
+    font-size: 1rem;
     cursor: help;
   }
 }
