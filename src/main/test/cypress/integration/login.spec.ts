@@ -52,6 +52,14 @@ describe('Login', () => {
   })
 
   it('Should present error if invalid credentials are provided', () => {
+    cy.intercept(/login/, {
+      delay: 100,
+      statusCode: 401,
+      body: {
+        error: faker.random.words(5)
+      }
+    })
+
     cy.getByTestId('email')
       .type(faker.internet.email())
     cy.getByTestId('password')
@@ -68,14 +76,20 @@ describe('Login', () => {
     cy.url().should('eq', `${baseUrl}/login`)
   })
 
-  it('Should present error if invalid credentials are provided', () => {
+  it('Should save access token if valid credentials are provided', () => {
+    cy.intercept(/login/, {
+      delay: 100,
+      statusCode: 200,
+      body: {
+        accessToken: faker.datatype.uuid()
+      }
+    })
+
     cy.getByTestId('email')
       .type('mango@gmail.com')
     cy.getByTestId('password')
       .type('12345')
     cy.getByTestId('submit').click()
-    cy.getByTestId('spinner').should('exist')
-    cy.getByTestId('main-error').should('not.exist')
     cy.getByTestId('spinner').should('not.exist')
     cy.getByTestId('main-error')
       .should('not.exist')
