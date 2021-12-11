@@ -61,7 +61,7 @@ describe('Login Component', () => {
     expect(errorWrap.childElementCount).toBe(0)
   })
 
-  test('Should not start with submite button enabled', () => {
+  test('Should not start with submit button enabled', () => {
     const validationError = faker.lorem.words(2)
     const { sut } = makeSut({ validationError })
 
