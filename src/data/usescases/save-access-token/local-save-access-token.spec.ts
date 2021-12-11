@@ -1,3 +1,4 @@
+import { InvalidCredentialsError } from '@/domain/Errors'
 import { LocalSaveAcessToken } from './local-save-access-token'
 import { SetStorageMock } from '@/data/test'
 import faker from 'faker'
@@ -34,5 +35,13 @@ describe('LocalSaveAcessToken', () => {
     const promise = sut.save(faker.datatype.uuid())
 
     await expect(promise).rejects.toThrow(new Error())
+  })
+
+  test('Should throw if accessToken is undefined', async () => {
+    const { sut } = makeSut()
+
+    const promise = sut.save(undefined)
+
+    await expect(promise).rejects.toThrow(new InvalidCredentialsError())
   })
 })
