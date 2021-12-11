@@ -119,4 +119,24 @@ describe('Login', () => {
 
     cy.url().should('eq', `${baseUrl}/login`)
   })
+
+  it('Should presente InvalidAccessTokenError if invalid data is returned', () => {
+    cy.intercept(/login/, {
+      delay: 100,
+      statusCode: 200,
+      body: {
+        invalidProperty: faker.datatype.uuid()
+      }
+    })
+
+    cy.getByTestId('email')
+      .type('mango@gmail.com')
+    cy.getByTestId('password')
+      .type('12345')
+    cy.getByTestId('submit').click()
+    cy.getByTestId('spinner').should('not.exist')
+    cy.getByTestId('main-error')
+      .should('exist')
+      .should('contain.text', 'Ocorreu um problema no processo de autenticação')
+  })
 })
