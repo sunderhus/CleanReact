@@ -97,4 +97,26 @@ describe('Login', () => {
     cy.url().should('eq', `${baseUrl}/`)
     cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))
   })
+
+  it('Should presente InvalidCredentialsError on 400, 402, 404, 500', () => {
+    cy.intercept(/login/, {
+      delay: 100,
+      statusCode: faker.helpers.randomize([400, 402, 404, 500]),
+      body: {
+        accessToken: faker.datatype.uuid()
+      }
+    })
+
+    cy.getByTestId('email')
+      .type('mango@gmail.com')
+    cy.getByTestId('password')
+      .type('12345')
+    cy.getByTestId('submit').click()
+    cy.getByTestId('spinner').should('not.exist')
+    cy.getByTestId('main-error')
+      .should('exist')
+      .should('contain.text', 'Algo de errado aconteceu. Tente novamente em breve')
+
+    cy.url().should('eq', `${baseUrl}/login`)
+  })
 })
