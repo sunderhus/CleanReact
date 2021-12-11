@@ -1,7 +1,7 @@
-import { InvalidCredentialsError } from '@/domain/Errors'
-import { LocalSaveAcessToken } from './local-save-access-token'
 import { SetStorageMock } from '@/data/test'
+import { InvalidAccessTokenError } from '@/domain/Errors'
 import faker from 'faker'
+import { LocalSaveAcessToken } from './local-save-access-token'
 
 type SutTypes = {
   sut: LocalSaveAcessToken
@@ -42,6 +42,6 @@ describe('LocalSaveAcessToken', () => {
 
     const promise = sut.save(undefined)
 
-    await expect(promise).rejects.toThrow(new InvalidCredentialsError())
+    await expect(promise).rejects.toThrow(new InvalidAccessTokenError())
   })
 })
