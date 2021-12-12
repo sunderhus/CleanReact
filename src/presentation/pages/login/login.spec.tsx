@@ -115,6 +115,16 @@ describe('Login Component', () => {
     Helper.testStatusForField(sut, 'password')
   })
 
+  test('Should focus input when label recive a click', () => {
+    const { sut } = makeSut()
+    const input = sut.getByTestId('password')
+    const label = sut.getByTestId('password-label')
+
+    fireEvent.click(label)
+
+    expect(document.activeElement).toBe(input)
+  })
+
   test('Should enable submit buton when form is valid', () => {
     const { sut } = makeSut()
 
