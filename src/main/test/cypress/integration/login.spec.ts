@@ -139,4 +139,25 @@ describe('Login', () => {
       .should('exist')
       .should('contain.text', 'Ocorreu um problema no processo de autenticação')
   })
+
+  it('Should prevent multiple submits', () => {
+    cy.intercept(/login/, {
+      delay: 100,
+      statusCode: 200,
+      body: {
+        accessToken: faker.datatype.uuid()
+      }
+    }).as('login-request')
+
+    cy.getByTestId('email')
+      .type(faker.internet.email())
+    cy.getByTestId('password')
+      .type(faker.random.alphaNumeric(5))
+    cy.getByTestId('submit')
+      .click()
+    cy.getByTestId('submit')
+      .dblclick()
+
+    cy.get('@login-request.all').should('have.length', 1)
+  })
 })
