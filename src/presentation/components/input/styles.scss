@@ -20,6 +20,14 @@ input[type="text"] {
     }
   }
 
+  &[data-invalid="true"]{
+    border-color: $primary;
+
+    &:after{
+      background: $primary;
+    }
+  }
+
   &:after{
     content: '';
     position:absolute;
@@ -27,7 +35,7 @@ input[type="text"] {
     left: 0;
     height: 0.2rem ;
     width:100%;
-    background: $primary;
+    background: $disabledColor;
     transform-origin: 0%;
     transform: scaleX(0);
     transition: transform 0.5s ease, background-color 0.5s ease;

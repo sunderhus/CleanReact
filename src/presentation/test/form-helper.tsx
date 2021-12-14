@@ -11,11 +11,16 @@ export const testButtonIsDisabled = (sut: RenderResult, testId: string, isDisabl
   expect(button.disabled).toBe(isDisabled)
 }
 
-export const testStatusForField = (sut: RenderResult, fieldName: string, validationError?: string): void => {
-  const fieldStatus = sut.getByTestId(`${fieldName}-status`)
+export const testStatusForField = (sut: RenderResult, fieldName: string, validationError: string = ''): void => {
+  const fieldWrap = sut.getByTestId(`${fieldName}-wrap`)
+  const field = sut.getByTestId(`${fieldName}`)
+  const label = sut.getByTestId(`${fieldName}-label`)
 
-  expect(fieldStatus.title).toBe(validationError || 'Tudo certo!')
-  expect(fieldStatus.textContent).toBe(validationError ? '🔴' : '🟢')
+  expect(
+    fieldWrap.getAttribute('data-invalid')
+  ).toBe(validationError ? 'true' : 'false')
+  expect(field.title).toBe(validationError)
+  expect(label.title).toBe(validationError)
 }
 
 export const populateField = (sut: RenderResult, fieldName: string, value = faker.random.word()): void => {
