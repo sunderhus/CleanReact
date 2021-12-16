@@ -22,5 +22,12 @@ module.exports = {
     '<rootDir>/node_modules/',
     '<rootDir>/src/main/test/cypress'
   ],
-  modulePathIgnorePatterns: ['src/main/test/cypress']
+  modulePathIgnorePatterns: ['src/main/test/cypress'],
+  coverageThreshold: {
+    global: {
+      branches: 100,
+      functions: 100,
+      lines: 100
+    }
+  }
 }
