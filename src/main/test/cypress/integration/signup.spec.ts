@@ -99,4 +99,11 @@ describe('Signup', () => {
 
     cy.get('@request.all').should('have.length', 1)
   })
+
+  it('Should not submit when form is invalid', () => {
+    HttpHelper.mockOk()
+    cy.getByTestId('name').type(faker.random.alphaNumeric(7)).type('{enter}')
+
+    cy.get('@request.all').should('have.length', 0)
+  })
 })
