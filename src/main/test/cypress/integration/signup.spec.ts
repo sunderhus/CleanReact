@@ -71,4 +71,12 @@ describe('Signup', () => {
 
     FormHelper.testMainError('Algo de errado aconteceu. Tente novamente em breve')
   })
+
+  it('Should present invalid access token error when returned data interface is invalid', () => {
+    HttpHelper.mockInvalidDataIntegration()
+
+    simulateValidSubmit()
+
+    FormHelper.testMainError('Ocorreu um problema no processo de autenticação')
+  })
 })
