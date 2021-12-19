@@ -61,7 +61,14 @@ describe('Signup', () => {
     HttpHelper.mockEmailInUseError()
 
     simulateValidSubmit()
+    FormHelper.testMainError('Este e-mail já está em uso.')
+  })
 
-    cy.getByTestId('main-error').should('contain.text', 'Este e-mail já está em uso.')
+  it('Should present unexpected error on default cases', () => {
+    HttpHelper.mockUnexpectedError()
+
+    simulateValidSubmit()
+
+    FormHelper.testMainError('Algo de errado aconteceu. Tente novamente em breve')
   })
 })
