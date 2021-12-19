@@ -2,13 +2,16 @@ import faker from 'faker'
 import * as FormHelper from '../support/form-helper'
 import * as HttpHelper from '../support/signup-mocks'
 
-const simulateValidSubmit = (): void => {
+const populateFields = (): void => {
   cy.getByTestId('name').type(faker.random.alphaNumeric(5))
   cy.getByTestId('email').type(faker.internet.email())
   const password = faker.random.alphaNumeric(5)
   cy.getByTestId('password').type(password)
   cy.getByTestId('passwordConfirmation').type(password)
+}
 
+const simulateValidSubmit = (): void => {
+  populateFields()
   cy.getByTestId('submit').click()
 }
 
@@ -43,11 +46,7 @@ describe('Signup', () => {
   })
 
   it('Should present valid state if form is valid', () => {
-    cy.getByTestId('name').type(faker.random.alphaNumeric(5))
-    cy.getByTestId('email').type(faker.internet.email())
-    const password = faker.random.alphaNumeric(5)
-    cy.getByTestId('password').type(password)
-    cy.getByTestId('passwordConfirmation').type(password)
+    populateFields()
 
     FormHelper.testInputStatus('name', '')
     FormHelper.testInputStatus('email', '')
@@ -90,5 +89,14 @@ describe('Signup', () => {
       .should('not.exist')
     FormHelper.testUrl('/')
     FormHelper.testLocalStorageItem('accessToken')
+  })
+
+  it('Should prevent multiple submitions', () => {
+    HttpHelper.mockOk()
+
+    populateFields()
+    cy.getByTestId('submit').dblclick()
+
+    cy.get('@request.all').should('have.length', 1)
   })
 })
