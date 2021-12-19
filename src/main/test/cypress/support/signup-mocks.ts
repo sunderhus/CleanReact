@@ -9,3 +9,7 @@ export const mockInvalidDataIntegration = (): void => Helper.mockInvalidDataInte
   invalidProperty: faker.random.words()
 }
 )
+
+export const mockOk = (): void => Helper.mockOk(/signup/, {
+  accessToken: faker.datatype.uuid()
+})
