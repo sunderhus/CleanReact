@@ -21,10 +21,10 @@ input[type="text"] {
   }
 
   &[data-invalid="true"]{
-    border-color: $primary;
+    border-color: $invalidColor;
 
     &:after{
-      background: $primary;
+      background: $invalidColor;
     }
   }
 
