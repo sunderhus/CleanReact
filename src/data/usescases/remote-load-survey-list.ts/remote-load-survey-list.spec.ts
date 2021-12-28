@@ -12,7 +12,7 @@ type SutTypes = {
   httpGetClientMock: HttpGetClientMock<SurveyModel[]>
 }
 
-const makeSut = ({ url }: SutParams): SutTypes => {
+const makeSut = ({ url = faker.internet.url() }: SutParams): SutTypes => {
   const httpGetClientMock = new HttpGetClientMock<SurveyModel[]>()
   const sut = new RemoteLoadSurveyList(url, httpGetClientMock)
   return {
