@@ -4,6 +4,6 @@ import { HttpResponse } from './http-response'
    url: string
  }
 
-export interface IHttpGetClient<R>{
+export interface IHttpGetClient<R=unknown>{
   get: (params: HttpGetParams) => Promise<HttpResponse<R>>
 }
