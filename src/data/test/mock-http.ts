@@ -7,14 +7,14 @@ export const mockPostRequest = (): HttpPostParams<any> => ({
 
 })
 
-export class HttpPostClientSpy<T, R> implements IHttpPostClient<T, R> {
+export class HttpPostClientSpy<BodyType, ResponseType> implements IHttpPostClient<BodyType, ResponseType> {
   url?: string;
-  body?: T;
-  response: HttpResponse<R> ={
+  body?: BodyType;
+  response: HttpResponse<ResponseType> = {
     statusCode: HttpStatusCode.ok
   };
 
-  async post (params: HttpPostParams<T>): Promise<HttpResponse<R>> {
+  async post (params: HttpPostParams<BodyType>): Promise<HttpResponse<ResponseType>> {
     this.url = params.url
     this.body = params.body
     const result = Promise.resolve(this.response)
@@ -22,10 +22,15 @@ export class HttpPostClientSpy<T, R> implements IHttpPostClient<T, R> {
   }
 }
 
-export class HttpGetClientMock<R> implements IHttpGetClient<R> {
+export class HttpGetClientSpy<ResponseType> implements IHttpGetClient<ResponseType> {
   url: string
-  async get ({ url }: {url: string}): Promise<HttpResponse<R>> {
+  response: HttpResponse<ResponseType> = {
+    statusCode: HttpStatusCode.ok
+  }
+
+  async get ({ url }: { url: string }): Promise<HttpResponse<ResponseType>> {
     this.url = url
-    return await Promise.resolve(null)
+    const result = await Promise.resolve(this.response)
+    return result
   }
 }
