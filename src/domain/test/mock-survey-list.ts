@@ -1,7 +1,7 @@
 import { SurveyAnswerModel, SurveyModel } from '@/domain/models'
 import faker from 'faker'
 
-const makeAnswers = (quantity = 1): SurveyAnswerModel[] => {
+const mockSurveyAnswer = (quantity: number): SurveyAnswerModel[] => {
   const answers: SurveyAnswerModel[] = []
 
   for (let index = 0; index < quantity; index++) {
@@ -17,9 +17,9 @@ const makeAnswers = (quantity = 1): SurveyAnswerModel[] => {
   return answers
 }
 
-const mockSurvey = (numberOfAnswers = 1): SurveyModel => {
+const mockSurvey = (numberOfAnswers: number): SurveyModel => {
   return {
-    answers: [...makeAnswers(numberOfAnswers)],
+    answers: [...mockSurveyAnswer(numberOfAnswers)],
     date: faker.date.recent(),
     didAnswer: faker.datatype.boolean(),
     id: faker.datatype.uuid(),
@@ -31,7 +31,7 @@ export const mockSurveyList = (numberOfSurveys: number): SurveyModel[] => {
   const surveys: SurveyModel[] = []
 
   for (let index = 0; index < numberOfSurveys; index++) {
-    surveys.push(mockSurvey())
+    surveys.push(mockSurvey(faker.datatype.number({ min: 1, max: 5 })))
   }
 
   return surveys
