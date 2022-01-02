@@ -29,6 +29,16 @@ describe('RemoteLoadSurveyList', () => {
     expect(httpGetClientSpy.url).toBe(url)
   })
 
+  it('Should return unexpected error when HttpGetClient returns 400', async () => {
+    const { sut, httpGetClientSpy } = makeSut()
+    httpGetClientSpy.response = {
+      statusCode: HttpStatusCode.badRequest
+    }
+    const promise = sut.loadAll()
+
+    await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
   it('Should return unexpected error when HttpGetClient returns 403', async () => {
     const { sut, httpGetClientSpy } = makeSut()
     httpGetClientSpy.response = {
