@@ -11,8 +11,8 @@ export class RemoteLoadSurveyList implements LoadSurveyList {
     const httpResponse = await this.httpGetClient.get({ url: this.url })
 
     switch (httpResponse.statusCode) {
-      case HttpStatusCode.forbidden: throw new UnexpectedError()
-      default:return null
+      case HttpStatusCode.ok:return null
+      default: throw new UnexpectedError()
     }
   }
 }
