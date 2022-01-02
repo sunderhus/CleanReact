@@ -12,6 +12,7 @@ export class RemoteLoadSurveyList implements LoadSurveyList {
 
     switch (httpResponse.statusCode) {
       case HttpStatusCode.ok:return httpResponse.body
+      case HttpStatusCode.noContent:return []
       default: throw new UnexpectedError()
     }
   }
