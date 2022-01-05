@@ -11,10 +11,7 @@ export class AxiosHttpClient<BodyType = unknown, ResponseType= unknown> implemen
       axiosResponse = error.response
     }
 
-    return {
-      statusCode: axiosResponse.status,
-      body: axiosResponse.data
-    }
+    return this.adapt(axiosResponse)
   }
 
   async get (params: HttpGetParams): Promise<HttpResponse<ResponseType>> {
@@ -26,6 +23,10 @@ export class AxiosHttpClient<BodyType = unknown, ResponseType= unknown> implemen
       axiosResponse = error.response
     }
 
+    return this.adapt(axiosResponse)
+  }
+
+  private adapt (axiosResponse: AxiosResponse): HttpResponse<ResponseType> {
     return {
       body: axiosResponse.data,
       statusCode: axiosResponse.status
