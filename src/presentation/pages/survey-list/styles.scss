@@ -1,4 +1,5 @@
 @import "../../styles/colors";
+@import "../../styles/breakpoints";
 
 .surveyListWrap {
   display: flex;
@@ -31,7 +32,7 @@
       justify-content: space-between;
 
       li {
-        height: 25rem;
+        min-height: 25rem;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -97,6 +98,7 @@
             align-self: center;
             font-size: 1.8rem;
             margin: 2.4rem;
+            flex-grow: 1;
           }
         }
 
@@ -105,7 +107,7 @@
           border-bottom-left-radius: 0.8rem;
           border-bottom-right-radius: 0.8rem;
           color: $white;
-          font-size: 1.2rem;
+          font-size: 1.4rem;
           line-height: 4rem;
           text-align: center;
           text-transform: lowercase;
@@ -114,6 +116,23 @@
           &:hover {
             background-color: $primaryDark;
           }
+          &:first-letter{
+            text-transform: uppercase;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: $tablet) {
+  .surveyListWrap {
+    .contentWrap {
+      ul {
+        flex-direction: column;
+
+        li {
+          flex-basis: 100%;
         }
       }
     }

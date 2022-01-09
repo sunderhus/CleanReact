@@ -1,6 +1,7 @@
-@import '../../styles/colors.scss';
+@import '../../styles/colors';
+@import '../../styles/breakpoints';
 
-.header {
+.headerWrap {
   display: flex;
   background-color: $primary;
   flex-direction: column;
@@ -16,3 +17,9 @@
     margin: 16px 0px 4rem;
   }
 } 
+
+@media only screen and (max-width: $tablet) {
+  .headerWrap{
+    border-top-width: 1.6rem;
+  }
+}
