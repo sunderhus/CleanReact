@@ -1,0 +1,16 @@
+@import '../../styles/colors.scss';
+
+.iconWrap {
+  padding: 1rem;
+  border-radius: 100%;
+  display: block;
+  box-shadow: 0px 1px 3px rgba($primaryDark, 0.13);
+
+  &.pending{
+    background-color: $invalidColor;
+  }
+
+  &.done{
+    background-color: $validColor;
+  }
+}
