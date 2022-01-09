@@ -7,48 +7,6 @@
   justify-content: space-between;
   background-color: $disabledBackground;
 
-  .headerWrap {
-    display: flex;
-    background-color: $primary;
-    border-top: 4rem solid $primaryDark;
-    justify-content: center;
-    .headerContent {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-
-      max-width: 80rem;
-      flex-grow: 1;
-      padding: 2.4rem 4rem;
-      img {
-        width: 6rem;
-        align-self: center;
-      }
-
-      .logoutWrap {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        align-self: center;
-        justify-content: center;
-        span {
-          color: $white;
-          font-size: 1.6rem;
-          margin-bottom: 0.8rem;
-        }
-        a {
-          font-size: 1.2rem;
-          color: $white;
-          text-decoration: none;
-
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-      }
-    }
-  }
-
   .contentWrap {
     display: flex;
     flex-direction: column;
