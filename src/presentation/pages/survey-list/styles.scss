@@ -1,0 +1,155 @@
+@import "../../styles/colors";
+
+.surveyListWrap {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: $disabledBackground;
+
+  .headerWrap {
+    display: flex;
+    background-color: $primary;
+    border-top: 4rem solid $primaryDark;
+    justify-content: center;
+    .headerContent {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      max-width: 80rem;
+      flex-grow: 1;
+      padding: 2.4rem 4rem;
+      img {
+        width: 6rem;
+        align-self: center;
+      }
+
+      .logoutWrap {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        align-self: center;
+        justify-content: center;
+        span {
+          color: $white;
+          font-size: 1.6rem;
+          margin-bottom: 0.8rem;
+        }
+        a {
+          font-size: 1.2rem;
+          color: $white;
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+
+  .contentWrap {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 80rem;
+    padding: 2.4rem 4rem;
+    flex-grow: 1;
+
+
+    h2{
+      color: $primaryDark;
+      font-size: 2rem;
+      margin-bottom: 2.4rem;
+      font-weight: bold;
+    }
+
+    ul{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      li{
+        height: 25rem;
+        background-color: $white;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border-radius: 0.8rem;
+        overflow: hidden;
+        flex-basis: 48%;
+        margin-bottom: 2.4rem;
+        box-shadow: 0px 1px 3px rgba(0,0,0,0.13);
+
+
+        .surveyContent{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          flex-grow: 1;
+          
+          background-repeat: no-repeat;
+          background-position: 0 0 , 50% 0 ;
+          background-size: 5rem 100%, 100% 100%;
+          background-image: linear-gradient(90deg, rgba($primaryLight,0.3) ,rgba($primaryLight,0.3)), linear-gradient(180deg, $white ,$white);
+          
+          time{
+              display: flex;
+              flex-direction: column;
+              align-self: center;
+              justify-content: center;
+              align-items: center;
+              flex-shrink: 0;
+              background-color: $primaryLight;
+              height: 100%;
+              border-radius: 0.8rem;
+              margin-left: 2.4rem;
+              width: 6rem;
+              height: 10rem;
+              color:$white;
+              font-size: 1.6rem;
+
+              .day{
+                font-size: 3.2rem;
+                font-weight: bold;
+              }
+              .month{
+                font-size: 1.6rem;
+                text-transform: lowercase;
+                margin: 0 0 0.4rem;
+              }
+              
+              .year{
+                font-size: 2rem;
+              }
+          }
+
+          p{
+            align-self: center;
+            font-size: 1.8rem;
+            margin: 2.4rem;
+          }
+          
+        }
+
+        footer{
+          background-color: $primary;
+          color:$white;
+          font-size: 1.2rem;
+          line-height: 4rem;
+          text-align: center;
+          text-transform:lowercase ;
+          cursor: pointer;
+          transition: background-color 0.2s linear;
+          &:hover{
+            background-color: $primaryDark;
+          }
+        }
+      }
+    }
+  }
+}
