@@ -61,7 +61,7 @@ describe('Login', () => {
     FormHelper.testUrl('/login')
   })
 
-  it('Should save access token if valid credentials are provided', () => {
+  it('Should save account if valid credentials are provided', () => {
     Http.mockOk()
 
     simulateValidSubmit()
@@ -70,7 +70,7 @@ describe('Login', () => {
     cy.getByTestId('main-error')
       .should('not.exist')
     FormHelper.testUrl('/')
-    FormHelper.testLocalStorageItem('accessToken')
+    FormHelper.testLocalStorageItem('account')
   })
 
   it('Should presente unexpected error', () => {

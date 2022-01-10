@@ -1,11 +1,10 @@
-import { AddAccount, SaveAccessToken } from '@/domain/usecases'
+import { AddAccount, UpdateCurrentAccount } from '@/domain/usecases'
 import { Footer, FormStatus, Input, LoginHeader, SubmitButton } from '@/presentation/components'
-
+import FormContext from '@/presentation/contexts/form'
 import { Validation } from '@/presentation/protocols/validation'
 import React, { FormEvent, useCallback, useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
-import FormContext from '@/presentation/contexts/form'
 import Styles from './styles.scss'
 
 type FormState = {
@@ -27,10 +26,10 @@ type FormState = {
 type Props = {
   validation: Validation
   addAccount: AddAccount
-  saveAccessToken: SaveAccessToken
+  updateCurrentAccount: UpdateCurrentAccount
 }
 
-const SignUp: React.FC<Props> = ({ validation, addAccount, saveAccessToken }: Props) => {
+const SignUp: React.FC<Props> = ({ validation, addAccount, updateCurrentAccount }: Props) => {
   const history = useHistory()
   const [state, setState] = useState<FormState>({
     isLoading: false,
@@ -60,7 +59,7 @@ const SignUp: React.FC<Props> = ({ validation, addAccount, saveAccessToken }: Pr
 
       const account = await addAccount.add({ name: state.name, email: state.email, password: state.password, passwordConfirmation: state.passwordConfirmation })
 
-      await saveAccessToken.save(account.accessToken)
+      await updateCurrentAccount.save(account)
       history.replace('/')
     } catch (error) {
       setState({ ...state, errors: { ...state, main: error.message } })

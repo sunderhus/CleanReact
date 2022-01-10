@@ -6,7 +6,8 @@ export const mockInvalidCredentialsError = (): void => Helper.mockInvalidCredent
 export const mockUnexpectedError = (): void => Helper.mockUnexpectedError(/login/)
 
 export const mockOk = (): void => Helper.mockOk(/login/, {
-  accessToken: faker.datatype.uuid()
+  accessToken: faker.datatype.uuid(),
+  name: faker.internet.userName()
 })
 
 export const mockInvalidDataIntegration = (): void => Helper.mockOk(/login/, {

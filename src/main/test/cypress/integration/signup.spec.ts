@@ -79,7 +79,7 @@ describe('Signup', () => {
     FormHelper.testMainError('Ocorreu um problema no processo de autenticação')
   })
 
-  it('Should save access token when account creation returns success', () => {
+  it('Should save account when account creation returns success', () => {
     HttpHelper.mockOk()
 
     simulateValidSubmit()
@@ -88,7 +88,7 @@ describe('Signup', () => {
     cy.getByTestId('main-error')
       .should('not.exist')
     FormHelper.testUrl('/')
-    FormHelper.testLocalStorageItem('accessToken')
+    FormHelper.testLocalStorageItem('account')
   })
 
   it('Should prevent multiple submitions', () => {

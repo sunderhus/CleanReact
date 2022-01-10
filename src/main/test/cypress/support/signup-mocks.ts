@@ -11,5 +11,6 @@ export const mockInvalidDataIntegration = (): void => Helper.mockInvalidDataInte
 )
 
 export const mockOk = (): void => Helper.mockOk(/signup/, {
-  accessToken: faker.datatype.uuid()
+  accessToken: faker.datatype.uuid(),
+  name: faker.internet.userName()
 })
