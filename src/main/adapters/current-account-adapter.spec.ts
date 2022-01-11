@@ -1,3 +1,4 @@
+import { InvalidAccessTokenError } from '@/domain/Errors'
 import { mockAccountModel } from '@/domain/test'
 import { AccountModel } from '@/domain/models'
 import { setCurrentAccountAdapter } from './current-account-adapter'
@@ -26,6 +27,12 @@ describe('CurrentAccountAdapter', () => {
     currentAccountAdapterMock(account)
 
     expect(setSpy).toHaveBeenCalledWith('account', account)
-    console.log(localStorage)
+  })
+
+  it('Should throw InvalidTokenError', () => {
+    const { currentAccountAdapterMock } = makeSut()
+    expect(() => {
+      currentAccountAdapterMock(undefined)
+    }).toThrow(new InvalidAccessTokenError())
   })
 })
