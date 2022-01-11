@@ -1,3 +1,3 @@
-export interface SetStorage<T> {
-  set: (key: string, value: T) => void
+export interface SetStorage {
+  set: (key: string, value: object) => void
 }
