@@ -1,20 +1,20 @@
-import { act, fireEvent, RenderResult } from '@testing-library/react'
+import { act, fireEvent, screen } from '@testing-library/react'
 import faker from 'faker'
 
-export const testElementChildCount = async (sut: RenderResult, testId: string, count: number): Promise<void> => {
-  const wrapElement = await sut.findByTestId(testId)
+export const testElementChildCount = (testId: string, count: number): void => {
+  const wrapElement = screen.getByTestId(testId)
   expect(wrapElement.childElementCount).toBe(count)
 }
 
-export const testButtonIsDisabled = (sut: RenderResult, testId: string, isDisabled: boolean): void => {
-  const button = sut.getByTestId(testId) as HTMLButtonElement
+export const testButtonIsDisabled = (testId: string, isDisabled: boolean): void => {
+  const button = screen.getByTestId(testId) as HTMLButtonElement
   expect(button.disabled).toBe(isDisabled)
 }
 
-export const testStatusForField = (sut: RenderResult, fieldName: string, validationError: string = ''): void => {
-  const fieldWrap = sut.getByTestId(`${fieldName}-wrap`)
-  const field = sut.getByTestId(`${fieldName}`)
-  const label = sut.getByTestId(`${fieldName}-label`)
+export const testStatusForField = (fieldName: string, validationError: string = ''): void => {
+  const fieldWrap = screen.getByTestId(`${fieldName}-wrap`)
+  const field = screen.getByTestId(`${fieldName}`)
+  const label = screen.getByTestId(`${fieldName}-label`)
 
   expect(
     fieldWrap.getAttribute('data-invalid')
@@ -23,18 +23,18 @@ export const testStatusForField = (sut: RenderResult, fieldName: string, validat
   expect(label.title).toBe(validationError)
 }
 
-export const populateField = (sut: RenderResult, fieldName: string, value = faker.random.word()): void => {
-  const input = sut.getByTestId(fieldName)
+export const populateField = (fieldName: string, value = faker.random.word()): void => {
+  const input = screen.getByTestId(fieldName)
   act(() => {
     fireEvent.input(input, { target: { value: value } })
   })
 }
 
-export const testElementExists = (sut: RenderResult, testId: string): void => {
-  expect(sut.getByTestId(testId)).toBeTruthy()
+export const testElementExists = (testId: string): void => {
+  expect(screen.getByTestId(testId)).toBeTruthy()
 }
 
-export const testElementText = async (sut: RenderResult, testId: string, text: string): Promise<void> => {
-  const element = await sut.findByTestId(testId)
+export const testElementText = (testId: string, text: string): void => {
+  const element = screen.getByTestId(testId)
   expect(element.textContent).toBe(text)
 }
