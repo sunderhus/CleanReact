@@ -1,38 +1,49 @@
 import { InvalidAccessTokenError } from '@/domain/Errors'
-import { mockAccountModel } from '@/domain/test'
 import { AccountModel } from '@/domain/models'
-import { setCurrentAccountAdapter } from './current-account-adapter'
+import { mockAccountModel } from '@/domain/test'
 import { LocalStorageAdapter } from '@/infra/cache/local-storage-adapter'
+import { getCurrentAccountAdapter, setCurrentAccountAdapter } from './current-account-adapter'
 
 jest.mock('@/infra/cache/local-storage-adapter')
 
 type SutTypes = {
-  currentAccountAdapterMock(account: AccountModel): void
+  setCurrentAccountAdapter(account: AccountModel): void
+  getCurrentAccountAdapter(): unknown
 }
 
 const makeSut = (): SutTypes => {
-  const currentAccountAdapterMock = jest.fn(setCurrentAccountAdapter)
-
   return {
-    currentAccountAdapterMock: currentAccountAdapterMock
+    setCurrentAccountAdapter,
+    getCurrentAccountAdapter
   }
 }
 
 describe('CurrentAccountAdapter', () => {
-  it('Should call LocalStorageAdapter with correct values', () => {
-    const { currentAccountAdapterMock } = makeSut()
+  it('Should call LocalStorageAdapter.set with correct values', () => {
+    const { setCurrentAccountAdapter } = makeSut()
     const account = mockAccountModel()
     const setSpy = jest.spyOn(LocalStorageAdapter.prototype, 'set')
 
-    currentAccountAdapterMock(account)
+    setCurrentAccountAdapter(account)
 
     expect(setSpy).toHaveBeenCalledWith('account', account)
   })
 
   it('Should throw InvalidTokenError', () => {
-    const { currentAccountAdapterMock } = makeSut()
+    const { setCurrentAccountAdapter } = makeSut()
     expect(() => {
-      currentAccountAdapterMock(undefined)
+      setCurrentAccountAdapter(undefined)
     }).toThrow(new InvalidAccessTokenError())
+  })
+
+  it('Should call LocalStorageAdapter.get with correct values', () => {
+    const { getCurrentAccountAdapter } = makeSut()
+    const account = mockAccountModel()
+    const getSpy = jest.spyOn(LocalStorageAdapter.prototype, 'get').mockReturnValueOnce(account)
+
+    const result = getCurrentAccountAdapter()
+
+    expect(getSpy).toHaveBeenCalledWith('account')
+    expect(result).toEqual(account)
   })
 })
