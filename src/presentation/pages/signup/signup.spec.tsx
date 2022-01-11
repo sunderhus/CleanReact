@@ -22,10 +22,11 @@ const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const addAccountSpy = new AddAccountSpy()
   const setCurrentAccountMock = jest.fn()
+  const getCurrentAccountMock = jest.fn()
   validationStub.errorMessage = params?.validationError
 
   const sut = render(
-    <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
+    <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: getCurrentAccountMock }}>
       <Router history={history}>
         <SignUp validation={validationStub} addAccount={addAccountSpy} />
       </Router>
