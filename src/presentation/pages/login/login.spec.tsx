@@ -4,7 +4,7 @@ import { ApiContext } from '@/presentation/contexts'
 import { Login } from '@/presentation/pages'
 import { AuthenticationSpy, Helper, ValidationStub } from '@/presentation/test'
 import { populateField } from '@/presentation/test/form-helper'
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import faker from 'faker'
 import { createMemoryHistory } from 'history'
 import React from 'react'
@@ -55,8 +55,6 @@ const simulateValidSubmit = async (email = faker.internet.email(), password = fa
 }
 
 describe('Login Component', () => {
-  afterEach(cleanup)
-
   test('Should not render Spinner and erro on start', () => {
     makeSut()
     const errorWrap = screen.getByTestId('error-wrap')
