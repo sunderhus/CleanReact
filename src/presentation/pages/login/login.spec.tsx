@@ -176,7 +176,7 @@ describe('Login Component', () => {
 
     await act(async () => simulateValidSubmit())
 
-    Helper.testElementChildCount('error-wrap', 1)
+    expect(screen.queryByTestId('error-wrap').children).toHaveLength(1)
     Helper.testElementText('main-error', error.message)
   })
 

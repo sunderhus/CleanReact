@@ -1,11 +1,6 @@
 import { act, fireEvent, screen } from '@testing-library/react'
 import faker from 'faker'
 
-export const testElementChildCount = (testId: string, count: number): void => {
-  const wrapElement = screen.getByTestId(testId)
-  expect(wrapElement.childElementCount).toBe(count)
-}
-
 export const testButtonIsDisabled = (testId: string, isDisabled: boolean): void => {
   const button = screen.getByTestId(testId) as HTMLButtonElement
   expect(button.disabled).toBe(isDisabled)

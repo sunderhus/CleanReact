@@ -56,7 +56,7 @@ describe('SignUp Component', () => {
   test('Should start with initial state', () => {
     const validationError = faker.random.words()
     makeSut({ validationError })
-    Helper.testElementChildCount('error-wrap', 0)
+    expect(screen.queryByTestId('error-wrap').children).toHaveLength(0)
     Helper.testButtonIsDisabled('submit', true)
     Helper.testStatusForField('name', validationError)
     Helper.testStatusForField('email', validationError)
@@ -165,7 +165,7 @@ describe('SignUp Component', () => {
     await simulateValidSubmit()
 
     Helper.testElementText('main-error', error.message)
-    Helper.testElementChildCount('error-wrap', 1)
+    expect(screen.queryByTestId('error-wrap').children).toHaveLength(1)
   })
 
   test('Should call SaveAccessToken when AddAccount succeed', async () => {
