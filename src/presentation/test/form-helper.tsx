@@ -6,11 +6,9 @@ export const testStatusForField = (fieldName: string, validationError: string = 
   const field = screen.queryByTestId(`${fieldName}`)
   const label = screen.queryByTestId(`${fieldName}-label`)
 
-  expect(
-    fieldWrap.getAttribute('data-invalid')
-  ).toBe(validationError ? 'true' : 'false')
-  expect(field.title).toBe(validationError)
-  expect(label.title).toBe(validationError)
+  expect(fieldWrap).toHaveAttribute('data-invalid', validationError ? 'true' : 'false')
+  expect(field).toHaveProperty('title', validationError)
+  expect(label).toHaveProperty('title', validationError)
 }
 
 export const populateField = (fieldName: string, value = faker.random.word()): void => {
