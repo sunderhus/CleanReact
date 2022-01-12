@@ -18,10 +18,6 @@ export const populateField = (fieldName: string, value = faker.random.word()): v
   })
 }
 
-export const testElementExists = (testId: string): void => {
-  expect(screen.queryByTestId(testId)).toBeTruthy()
-}
-
 export const testElementText = (testId: string, text: string): void => {
   const element = screen.queryByTestId(testId)
   expect(element.textContent).toBe(text)
