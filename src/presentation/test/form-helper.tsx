@@ -1,11 +1,6 @@
 import { act, fireEvent, screen } from '@testing-library/react'
 import faker from 'faker'
 
-export const testButtonIsDisabled = (testId: string, isDisabled: boolean): void => {
-  const button = screen.getByTestId(testId) as HTMLButtonElement
-  expect(button.disabled).toBe(isDisabled)
-}
-
 export const testStatusForField = (fieldName: string, validationError: string = ''): void => {
   const fieldWrap = screen.getByTestId(`${fieldName}-wrap`)
   const field = screen.getByTestId(`${fieldName}`)

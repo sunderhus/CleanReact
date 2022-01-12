@@ -57,7 +57,7 @@ describe('SignUp Component', () => {
     const validationError = faker.random.words()
     makeSut({ validationError })
     expect(screen.queryByTestId('error-wrap').children).toHaveLength(0)
-    Helper.testButtonIsDisabled('submit', true)
+    expect(screen.queryByTestId('submit')).toBeDisabled()
     Helper.testStatusForField('name', validationError)
     Helper.testStatusForField('email', validationError)
     Helper.testStatusForField('password', validationError)
@@ -118,7 +118,7 @@ describe('SignUp Component', () => {
 
   test('Should enable submit button when form is valid', () => {
     makeSut()
-    Helper.testButtonIsDisabled('submit', false)
+    expect(screen.queryByTestId('submit')).toBeEnabled()
   })
   test('Should show loading on valid submit', async () => {
     makeSut()

@@ -66,7 +66,7 @@ describe('Login Component', () => {
     const validationError = faker.lorem.words(2)
     makeSut({ validationError })
 
-    Helper.testButtonIsDisabled('submit', true)
+    expect(screen.queryByTestId('submit')).toBeDisabled()
   })
 
   test('Should start email field with default title', () => {
@@ -126,13 +126,13 @@ describe('Login Component', () => {
     expect(document.activeElement).toBe(input)
   })
 
-  test('Should enable submit buton when form is valid', () => {
+  test('Should enable submit button when form is valid', () => {
     makeSut()
 
     populateField('email')
     populateField('password')
 
-    Helper.testButtonIsDisabled('submit', false)
+    expect(screen.queryByTestId('submit')).toBeEnabled()
   })
 
   test('Should show spinner on submit', async () => {
