@@ -17,8 +17,3 @@ export const populateField = (fieldName: string, value = faker.random.word()): v
     fireEvent.input(input, { target: { value: value } })
   })
 }
-
-export const testElementText = (testId: string, text: string): void => {
-  const element = screen.queryByTestId(testId)
-  expect(element.textContent).toBe(text)
-}

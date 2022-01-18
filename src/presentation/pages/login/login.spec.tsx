@@ -177,7 +177,7 @@ describe('Login Component', () => {
     await act(async () => simulateValidSubmit())
 
     expect(screen.queryByTestId('error-wrap').children).toHaveLength(1)
-    Helper.testElementText('main-error', error.message)
+    expect(screen.queryByTestId('main-error')).toHaveTextContent(error.message)
   })
 
   test('Should call UpdateCurrentAccount on success and navigate to main page', async () => {

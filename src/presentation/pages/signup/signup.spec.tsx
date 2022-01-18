@@ -164,7 +164,7 @@ describe('SignUp Component', () => {
     jest.spyOn(addAccountSpy, 'add').mockRejectedValueOnce(error)
     await simulateValidSubmit()
 
-    Helper.testElementText('main-error', error.message)
+    expect(screen.queryByTestId('main-error')).toHaveTextContent(error.message)
     expect(screen.queryByTestId('error-wrap').children).toHaveLength(1)
   })
 
