@@ -17,7 +17,7 @@ const mockSurveyAnswer = (quantity: number): SurveyAnswerModel[] => {
   return answers
 }
 
-const mockSurvey = (numberOfAnswers: number): SurveyModel => {
+export const mockSurvey = (numberOfAnswers: number): SurveyModel => {
   return {
     answers: [...mockSurveyAnswer(numberOfAnswers)],
     date: faker.date.recent(),
