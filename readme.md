@@ -5,20 +5,21 @@
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=sunderhus_CleanReact&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=sunderhus_CleanReact)
 ---
 
-# TDD + DDD + React+Typescript
+# TDD + DDD + Design patterns + React + Typescript
 
-This project is a advance course using best practices, code architecture , CI/CD and React ⚛.
+This project is a advance course using best practices, code architecture , design patterns, CI/CD and with a advanced React Approach ⚛.
 
+# To run use follow this steps:
+- Install NodeJs 16^, Yarn or npm aswell.
+- Clone this project.
+- After the clonning process, use yarn or npm install, to install all necessary dependencies. 
+    - yarn start (localhost start script).
+    - yarn test (run all unit tests).
+    - yarn test:cypress (opens cypress to run integration tests).
 
-# Para utilizar esse projeto
-- Clone o projeto e garanta que sua máquina tenha instalado o NodeJS.
-- Na pasta raíz utilize o comando npm install ou yarn, para instalar as dependências
-- Após a instalação, rode os seguintes scripts
-    - yarn start (inicia em localhost)
-    - yarn test (realiza todos os testes unitários )
-    - yarn test:cypress (abre o cypress para que você escolha quais testes rodar)
-
-
-# Criado por
-Matheus Sunderhus
+## Good to Know
+This project faces some dependencies limitations, one of these are Jest tests with INTL javascript object. To solve this problem follow those instructions. This will be only necessary, if you not pretend to use cross-env and full-icu packages.
+[Jest problems with Intl JS and CI](https://www.basefactor.com/javascript-es6-intl-not-working-properly-when-running-jest-tests)
+# Created by
+Matheus Sunderhus [LinkedIn](https://www.linkedin.com/in/matheus-sunderhus/)
 
