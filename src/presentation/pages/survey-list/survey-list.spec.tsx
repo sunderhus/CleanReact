@@ -33,20 +33,19 @@ describe('SurveyList', () => {
     makeSut()
     const emptyList = screen.queryByRole('list')
     expect(emptyList.children.length).toBe(4)
-    await waitFor(() => emptyList)
+    await screen.findByRole('heading')
   })
 
   it('Should call  LoadSurveyList on start', async () => {
     const { loadSurveyList } = makeSut()
 
     expect(loadSurveyList.callsCount).toBe(1)
-    await waitFor(() => screen.getByRole('heading'))
+    await screen.findByRole('heading')
   })
 
   it('Should render survey items on success', async () => {
     makeSut()
-    const surveyList = screen.getByTestId('survey-list')
-    await waitFor(() => surveyList)
+    await screen.findByRole('list')
     expect(screen.getAllByRole('listitem')).toHaveLength(3)
   })
 })
