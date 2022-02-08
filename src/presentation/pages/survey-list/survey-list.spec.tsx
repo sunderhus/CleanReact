@@ -34,6 +34,8 @@ describe('SurveyList', () => {
     const emptyList = screen.queryByRole('list')
     expect(emptyList.children.length).toBe(4)
     await screen.findByRole('heading')
+    const errorWrapper = screen.queryByTestId('error')
+    expect(errorWrapper).not.toBeInTheDocument()
   })
 
   it('Should call  LoadSurveyList on start', async () => {

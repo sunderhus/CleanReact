@@ -30,7 +30,14 @@ export const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
       <Header />
       <div className={Styles.contentWrap}>
         <h2>Enquetes</h2>
-        {!state.error ? (
+        {state.error ? (
+          <div>
+            <span data-testid="error">
+              {state.error}
+            </span>
+            <button>Recarregar</button>
+          </div>
+        ) : (
           <ul data-testid="survey-list">
             {state.surveys.length
               ? state.surveys.map(survey => {
@@ -40,8 +47,6 @@ export const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
               })
               : < SurveyItemEmpty />}
           </ul>
-        ) : (
-          <div data-testid="error">{state.error}</div>
         )}
 
       </div>
