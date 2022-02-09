@@ -1,5 +1,4 @@
 @import "../../styles/colors";
-@import "../../styles/breakpoints";
 
 .surveyListWrap {
   display: flex;
@@ -24,26 +23,9 @@
       margin-bottom: 2.4rem;
       font-weight: bold;
     }
-
-    ul {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: space-between;
-
-
-    }
   }
 }
 
-@media only screen and (max-width: $tablet) {
-  .surveyListWrap {
-    .contentWrap {
-      ul {
-        flex-direction: column;
-      }
-    }
-  }
-}
+
 
 
