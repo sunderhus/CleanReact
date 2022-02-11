@@ -35,11 +35,7 @@ export const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
           state,
           setState
         }}>
-          {state.error ? (
-            <Error />
-          ) : (
-            <List />
-          )}
+          {state.error ? <Error /> : <List />}
         </SurveyContext.Provider>
       </div>
       <Footer />
