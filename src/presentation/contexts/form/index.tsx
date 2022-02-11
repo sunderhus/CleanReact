@@ -1,7 +1,6 @@
 import { createContext } from 'react'
 
-type FormState = {
-  [key: string]: string | boolean | {[key: string]: string}
+interface FormState extends Record<string, any> {
   isLoading: boolean
   isFormInvalid: boolean
   errors: {
@@ -9,7 +8,7 @@ type FormState = {
   }
 }
 
-interface FormContext{
+interface FormContext {
   state: FormState
   setState: React.Dispatch<React.SetStateAction<FormState>>
 }
