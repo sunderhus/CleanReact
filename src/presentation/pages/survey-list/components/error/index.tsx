@@ -14,7 +14,7 @@ const Error: React.FC = () => {
       <span data-testid="error">
         {state.error}
       </span>
-      <button onClick={handleReload} data-testid="reload">Recarregar</button>
+      <button onClick={handleReload} data-testid="reload">Tentar novamente</button>
     </div>
   )
 }
