@@ -8,6 +8,7 @@ export class AuthorizeHttpGetClientDecorator implements IHttpGetClient {
 
   async get (params: HttpGetParams): Promise<HttpResponse<unknown>> {
     this.getStorage.get('account')
+    await this.httpGetClient.get(params)
     return Promise.resolve(null)
   };
 }
