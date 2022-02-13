@@ -41,17 +41,41 @@ describe('AuthorizeHttpGetClientDecorator', () => {
     expect(httpGetClientSpy.headers).toEqual(httpGetParamsMock.headers)
   })
 
-  test('Should add headers to HttpGetClient', () => {
+  test('Should add headers to HttpGetClient', async () => {
     const { sut, httpGetClientSpy, getStorageSpy } = makeSut()
     getStorageSpy.value = mockAccountModel()
     const httpGetParamsMock: HttpGetParams = {
       url: faker.internet.url()
     }
 
-    sut.get(httpGetParamsMock)
+    await sut.get(httpGetParamsMock)
     expect(httpGetClientSpy.url).toBe(httpGetParamsMock.url)
     expect(httpGetClientSpy.headers).toHaveProperty(
       'x-access-token', getStorageSpy.value.accessToken
+    )
+  })
+
+  test('Should merge headers to HttpGetClient', async () => {
+    const { sut, httpGetClientSpy, getStorageSpy } = makeSut()
+    const accountMock = mockAccountModel()
+    getStorageSpy.value = accountMock
+    const fieldValueMock = faker.random.words()
+
+    const httpGetParamsMock: HttpGetParams = {
+      url: faker.internet.url(),
+      headers: {
+        field: fieldValueMock
+      }
+    }
+
+    await sut.get(httpGetParamsMock)
+
+    expect(httpGetClientSpy.url).toBe(httpGetParamsMock.url)
+    expect(httpGetClientSpy.headers).toEqual(
+      {
+        field: fieldValueMock,
+        'x-access-token': accountMock.accessToken
+      }
     )
   })
 })
