@@ -28,12 +28,16 @@ export class HttpPostClientSpy<BodyType, ResponseType> implements IHttpPostClien
 
 export class HttpGetClientSpy<ResponseType> implements IHttpGetClient<ResponseType> {
   url: string
+
+  headers?: unknown
+
   response: HttpResponse<ResponseType> = {
     statusCode: HttpStatusCode.ok
   }
 
-  async get ({ url }: { url: string }): Promise<HttpResponse<ResponseType>> {
-    this.url = url
+  async get (params: HttpGetParams): Promise<HttpResponse<ResponseType>> {
+    this.url = params.url
+    this.headers = params.headers
     const result = await Promise.resolve(this.response)
     return result
   }
