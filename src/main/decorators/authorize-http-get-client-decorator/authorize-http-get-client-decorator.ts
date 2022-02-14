@@ -3,7 +3,7 @@ import { GetStorage } from '@/data/protocols/cache/get-storage'
 import { HttpGetParams, HttpResponse, IHttpGetClient } from '@/data/protocols/http'
 
 export class AuthorizeHttpGetClientDecorator implements IHttpGetClient {
-  constructor (readonly httpGetClient: IHttpGetClient, readonly getStorage: GetStorage<AccountModel>) {
+  constructor (private readonly httpGetClient: IHttpGetClient, private readonly getStorage: GetStorage<AccountModel>) {
 
   }
 
@@ -17,7 +17,8 @@ export class AuthorizeHttpGetClientDecorator implements IHttpGetClient {
         })
       })
     }
-    await this.httpGetClient.get(params)
-    return Promise.resolve(null)
+    const httpResponse = await this.httpGetClient.get(params)
+
+    return httpResponse
   };
 }
