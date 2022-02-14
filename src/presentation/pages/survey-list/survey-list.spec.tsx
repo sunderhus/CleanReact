@@ -1,30 +1,18 @@
 import React from 'react'
-import { screen, render, waitFor, fireEvent } from '@testing-library/react'
-import SurveyList from '.'
-import { LoadSurveyList } from '@/domain/usecases/load-survey-list'
-import { SurveyModel } from '@/domain/models'
-import { mockSurveyList } from '@/domain/test'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { UnexpectedError } from '@/domain/Errors'
+import { LoadSurveyListSpy } from '@/domain/test'
+import SurveyList from '.'
 
-class LoadSurveyListSpy implements LoadSurveyList {
-  callsCount = 0
-  surveys = mockSurveyList(3)
-
-  async loadAll (): Promise<SurveyModel[]> {
-    this.callsCount++
-
-    return await Promise.resolve(this.surveys)
-  }
-}
 interface SutTypes {
-  loadSurveyList: LoadSurveyListSpy
+  loadSurveyListSpy: LoadSurveyListSpy
 }
 
 const makeSut = (loadSurveyListSpy = new LoadSurveyListSpy()): SutTypes => {
   render(<SurveyList loadSurveyList={loadSurveyListSpy} />)
 
   return {
-    loadSurveyList: loadSurveyListSpy
+    loadSurveyListSpy: loadSurveyListSpy
   }
 }
 
@@ -39,9 +27,9 @@ describe('SurveyList', () => {
   })
 
   it('Should call  LoadSurveyList on start', async () => {
-    const { loadSurveyList } = makeSut()
+    const { loadSurveyListSpy } = makeSut()
 
-    expect(loadSurveyList.callsCount).toBe(1)
+    expect(loadSurveyListSpy.callsCount).toBe(1)
     await screen.findByRole('heading')
   })
 

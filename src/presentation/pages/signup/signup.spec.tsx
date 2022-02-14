@@ -1,5 +1,5 @@
 import { EmailInUseError } from '@/domain/Errors'
-import { AccountModel } from '@/domain/models'
+import { AddAccount } from '@/domain/usecases'
 import { ApiContext } from '@/presentation/contexts'
 import { AddAccountSpy, Helper, ValidationStub } from '@/presentation/test'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
@@ -11,7 +11,7 @@ import SignUp from '.'
 
 type SutTypes = {
   addAccountSpy: AddAccountSpy
-  setCurrentAccountMock(account: AccountModel): void
+  setCurrentAccountMock(account: AddAccount.Model): void
 }
 type SutParams = {
   validationError: string

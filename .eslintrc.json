@@ -24,6 +24,9 @@
     "@typescript-eslint/camelcase":0,
     "@typescript-eslint/no-unused-vars":"off",
     "react/jsx-uses-react":"error",
-    "react/jsx-uses-vars":"error"
+    "react/jsx-uses-vars":"error",
+    "@typescript-eslint/no-namespace":"off",
+    "no-redeclare":"off",
+    "import/export":"off"
   }
 }

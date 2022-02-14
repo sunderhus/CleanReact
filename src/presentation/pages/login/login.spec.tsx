@@ -1,5 +1,6 @@
+import React from 'react'
 import { InvalidCredentialsError } from '@/domain/Errors'
-import { AccountModel } from '@/domain/models'
+import { Authentication } from '@/domain/usecases'
 import { ApiContext } from '@/presentation/contexts'
 import { Login } from '@/presentation/pages'
 import { AuthenticationSpy, Helper, ValidationStub } from '@/presentation/test'
@@ -7,12 +8,11 @@ import { populateField } from '@/presentation/test/form-helper'
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import faker from 'faker'
 import { createMemoryHistory } from 'history'
-import React from 'react'
 import { Router } from 'react-router-dom'
 
 type SutTypes = {
   authenticationSpy: AuthenticationSpy
-  setCurrentAccountMock(account: AccountModel): void
+  setCurrentAccountMock(account: Authentication.Model): void
 }
 
 type SutParams = {
