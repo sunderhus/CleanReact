@@ -14,13 +14,13 @@ const SurveyItem: React.FC<Props> = ({ survey }: Props) => {
         <Icon className={Styles.surveyIcon} iconName={survey.didAnswer ? IconName.thumbUp : IconName.thumbDown} />
         <time>
           <span data-testid="day" className={Styles.day}>
-            {survey.date.toLocaleString('pt-BR', { day: '2-digit' })}
+            {new Date(survey.date).toLocaleString('pt-BR', { day: '2-digit' })}
           </span>
           <span data-testid="month" className={Styles.month}>
-            {survey.date.toLocaleString('pt-BR', { month: 'short' }).replace('.', '')}
+            {new Date(survey.date).toLocaleString('pt-BR', { month: 'short' }).replace('.', '')}
           </span>
           <span data-testid="year" className={Styles.year}>
-            {survey.date.getFullYear()}
+            {new Date(survey.date).getFullYear()}
           </span>
         </time>
         <p data-testid="question">{survey.question}</p>
