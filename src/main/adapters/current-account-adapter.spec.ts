@@ -1,4 +1,3 @@
-import { InvalidAccessTokenError } from '@/domain/Errors'
 import { AccountModel } from '@/domain/models'
 import { mockAccountModel } from '@/domain/test'
 import { LocalStorageAdapter } from '@/infra/cache/local-storage-adapter'
