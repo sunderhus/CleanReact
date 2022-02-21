@@ -7,7 +7,7 @@
   "scripts": {
     "start": "webpack-dev-server --open",
     "test": "cross-env NODE_ICU_DATA=node_modules/full-icu jest --passWithNoTests --no-cache --runInBand",
-    "test:watch": "yarn test -- --watch",
+    "test:watch": "yarn test -- --watch --color",
     "test:staged": "yarn test -- --findRelatedTests",
     "test:ci": "yarn test -- --coverage",
     "test:cypress": "yarn run cypress open",
