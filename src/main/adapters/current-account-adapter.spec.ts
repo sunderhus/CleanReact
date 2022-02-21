@@ -29,13 +29,6 @@ describe('CurrentAccountAdapter', () => {
     expect(setSpy).toHaveBeenCalledWith('account', account)
   })
 
-  it('Should throw InvalidTokenError', () => {
-    const { setCurrentAccountAdapter } = makeSut()
-    expect(() => {
-      setCurrentAccountAdapter(undefined)
-    }).toThrow(new InvalidAccessTokenError())
-  })
-
   it('Should call LocalStorageAdapter.get with correct values', () => {
     const { getCurrentAccountAdapter } = makeSut()
     const account = mockAccountModel()
