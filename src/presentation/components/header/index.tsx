@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 import Styles from './styles.scss'
 
 const Header: React.FC = () => {
-  const { setCurrentAccount } = useContext(ApiContext)
+  const { setCurrentAccount, getCurrentAccount } = useContext(ApiContext)
   const history = useHistory()
 
   const handleLogout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
@@ -19,7 +19,7 @@ const Header: React.FC = () => {
       <div className={Styles.headerContent}>
         <Logo />
         <div className={Styles.logoutWrap}>
-          <span>Rodrigo</span>
+          <span data-testid="username">{getCurrentAccount().name}</span>
           <a data-testid="logout" onClick={(event) => handleLogout(event)} href='#'>Sair</a>
         </div>
       </div>
