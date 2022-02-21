@@ -4,17 +4,19 @@ import { Header } from '@/presentation/components'
 import { ApiContext } from '@/presentation/contexts'
 import { AccountModel } from '@/domain/models'
 import { Router } from 'react-router-dom'
-import { createMemoryHistory } from 'history'
+import { createMemoryHistory, MemoryHistory } from 'history'
+import { mockAccountModel } from '@/domain/test'
 
 type SutTypes = {
+  getCurrentAccountMock(): AccountModel
   setCurrentAccountMock(account: AccountModel): void
+  history: MemoryHistory
 }
 
-const history = createMemoryHistory({ initialEntries: ['/'] })
-
-const makeSut = (): SutTypes => {
+const makeSut = (account = mockAccountModel()): SutTypes => {
   const setCurrentAccountMock = jest.fn()
-  const getCurrentAccountMock = jest.fn()
+  const getCurrentAccountMock = jest.fn(() => account)
+  const history = createMemoryHistory({ initialEntries: ['/'] })
 
   render(
     <ApiContext.Provider value={{
@@ -28,18 +30,27 @@ const makeSut = (): SutTypes => {
     </ApiContext.Provider>)
 
   return {
-    setCurrentAccountMock
+    setCurrentAccountMock,
+    getCurrentAccountMock,
+    history
   }
 }
 
 describe('Header', () => {
   it('Should call setCurrentAccount with null value', () => {
-    const { setCurrentAccountMock } = makeSut()
+    const { setCurrentAccountMock, history } = makeSut()
 
     fireEvent.click(screen.getByTestId('logout'))
 
     expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
     expect(history.length).toBe(1)
     expect(history.location.pathname).toBe('/login')
+  })
+
+  it('Should render correct username', () => {
+    const account = mockAccountModel()
+    makeSut(account)
+
+    expect(screen.queryByTestId('username')).toHaveTextContent(account.name)
   })
 })
