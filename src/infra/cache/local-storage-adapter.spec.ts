@@ -23,6 +23,15 @@ describe('LocalStorageAdapter', () => {
     expect(localStorage.setItem).toHaveBeenCalledWith(key, JSON.stringify(value))
   })
 
+  it('Should call localStorage.removeItem when no value is provided', () => {
+    const sut = makeSut()
+    const removeItemSpy = jest.spyOn(localStorage, 'removeItem')
+    const key = faker.random.word()
+    sut.set(key, undefined)
+
+    expect(removeItemSpy).toBeCalledWith(key)
+  })
+
   test('Should call localStorage.getItem with correct value', () => {
     const sut = makeSut()
     const key = faker.random.word()
