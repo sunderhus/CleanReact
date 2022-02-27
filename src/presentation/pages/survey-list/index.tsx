@@ -17,7 +17,7 @@ export const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
     reload: false
   })
   const history = useHistory()
-  const errorHandler = useErrorHandler((error: Error) => setState(current => ({ ...current, error: error.message })))
+  const handleError = useErrorHandler((error: Error) => setState(current => ({ ...current, error: error.message })))
 
   useEffect(() => {
     loadSurveyList.loadAll()
@@ -25,7 +25,7 @@ export const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
         setState(current => ({ ...current, surveys }))
       })
       .catch((error) => {
-        errorHandler(error)
+        handleError(error)
       })
   }, [state.reload, history])
 
