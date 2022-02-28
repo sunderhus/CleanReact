@@ -1,7 +1,7 @@
 import faker from 'faker'
 const requestAlias = 'request'
 
-export const mockInvalidCredentialsError = (url: RegExp): void => {
+export const mockUnauthorizedError = (url: RegExp): void => {
   cy.intercept(url, {
     delay: 100,
     statusCode: 401,
@@ -10,7 +10,7 @@ export const mockInvalidCredentialsError = (url: RegExp): void => {
     }
   }).as(requestAlias)
 }
-export const mockEmailInUseError = (url: RegExp): void => {
+export const mockForbiddenError = (url: RegExp): void => {
   cy.intercept(url, {
     delay: 100,
     statusCode: 403,
@@ -20,7 +20,7 @@ export const mockEmailInUseError = (url: RegExp): void => {
   }).as(requestAlias)
 }
 
-export const mockUnexpectedError = (url: RegExp): void => {
+export const mockServerError = (url: RegExp): void => {
   cy.intercept(url, {
     delay: 100,
     statusCode: faker.helpers.randomize([400, 402, 404, 500]),
@@ -31,14 +31,6 @@ export const mockUnexpectedError = (url: RegExp): void => {
 }
 
 export const mockOk = <R>(url: RegExp, response: R): void => {
-  cy.intercept(url, {
-    delay: 100,
-    statusCode: 200,
-    body: response
-  }).as(requestAlias)
-}
-
-export const mockInvalidDataIntegration = <R>(url: RegExp, response: R): void => {
   cy.intercept(url, {
     delay: 100,
     statusCode: 200,

@@ -1,7 +1,8 @@
 
 import faker from 'faker'
 import * as Http from '../support/login-mocks'
-import * as FormHelper from '../support/form-helper'
+import * as FormHelper from '../support/form-helpers'
+import * as Helper from '../support/helpers'
 
 const populateFields = (): void => {
   cy.getByTestId('email')
@@ -58,7 +59,7 @@ describe('Login', () => {
     cy.getByTestId('spinner').should('exist')
     cy.getByTestId('main-error').should('not.exist')
     FormHelper.testMainError('Credenciais Inválidas')
-    FormHelper.testUrl('/login')
+    Helper.testUrl('/login')
   })
 
   it('Should save account if valid credentials are provided', () => {
@@ -69,8 +70,8 @@ describe('Login', () => {
     cy.getByTestId('spinner').should('not.exist')
     cy.getByTestId('main-error')
       .should('not.exist')
-    FormHelper.testUrl('/')
-    FormHelper.testLocalStorageItem('account')
+    Helper.testUrl('/')
+    Helper.testLocalStorageItem('account')
   })
 
   it('Should presente unexpected error', () => {
@@ -79,15 +80,7 @@ describe('Login', () => {
     simulateValidSubmit()
 
     FormHelper.testMainError('Algo de errado aconteceu. Tente novamente em breve')
-    FormHelper.testUrl('/login')
-  })
-
-  it('Should presente InvalidAccessTokenError if invalid data is returned', () => {
-    Http.mockInvalidDataIntegration()
-
-    simulateValidSubmit()
-
-    FormHelper.testMainError('Ocorreu um problema no processo de autenticação')
+    Helper.testUrl('/login')
   })
 
   it('Should prevent multiple submits', () => {
@@ -97,7 +90,7 @@ describe('Login', () => {
     cy.getByTestId('submit')
       .dblclick()
 
-    cy.get('@request.all').should('have.length', 1)
+    Helper.testCallsCount(1)
   })
 
   it('Should not call submit when form is invalid', () => {
@@ -105,6 +98,6 @@ describe('Login', () => {
 
     cy.getByTestId('email').focus().type(faker.internet.email()).type('{enter}')
 
-    cy.get('@request.all').should('have.length', 0)
+    Helper.testCallsCount(0)
   })
 })

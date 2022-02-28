@@ -1,5 +1,6 @@
 import faker from 'faker'
-import * as FormHelper from '../support/form-helper'
+import * as FormHelper from '../support/form-helpers'
+import * as Helper from '../support/helpers'
 import * as HttpHelper from '../support/signup-mocks'
 
 const populateFields = (): void => {
@@ -71,14 +72,6 @@ describe('Signup', () => {
     FormHelper.testMainError('Algo de errado aconteceu. Tente novamente em breve')
   })
 
-  it('Should present invalid access token error when returned data interface is invalid', () => {
-    HttpHelper.mockInvalidDataIntegration()
-
-    simulateValidSubmit()
-
-    FormHelper.testMainError('Ocorreu um problema no processo de autenticação')
-  })
-
   it('Should save account when account creation returns success', () => {
     HttpHelper.mockOk()
 
@@ -87,8 +80,8 @@ describe('Signup', () => {
     cy.getByTestId('spinner').should('not.exist')
     cy.getByTestId('main-error')
       .should('not.exist')
-    FormHelper.testUrl('/')
-    FormHelper.testLocalStorageItem('account')
+    Helper.testUrl('/')
+    Helper.testLocalStorageItem('account')
   })
 
   it('Should prevent multiple submitions', () => {
@@ -97,13 +90,13 @@ describe('Signup', () => {
     populateFields()
     cy.getByTestId('submit').dblclick()
 
-    cy.get('@request.all').should('have.length', 1)
+    Helper.testCallsCount(1)
   })
 
   it('Should not submit when form is invalid', () => {
     HttpHelper.mockOk()
     cy.getByTestId('name').type(faker.random.alphaNumeric(7)).type('{enter}')
 
-    cy.get('@request.all').should('have.length', 0)
+    Helper.testCallsCount(0)
   })
 })
