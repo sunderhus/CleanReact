@@ -26,8 +26,15 @@ describe('SurveyList', () => {
 
   it('Should present correct username', () => {
     Http.mockOk()
-    const account = Helper.getLocalStorageItem<{name: string}>('account')
+    const account = Helper.getLocalStorageItem<{ name: string }>('account')
 
     cy.getByTestId('username').should('contain.text', account.name)
+  })
+
+  it('Should logout on logout button was clicked', () => {
+    Http.mockOk()
+    cy.getByTestId('logout').click()
+
+    Helper.testUrl('/login')
   })
 })
