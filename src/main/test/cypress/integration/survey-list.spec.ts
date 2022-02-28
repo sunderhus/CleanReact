@@ -23,4 +23,11 @@ describe('SurveyList', () => {
 
     Helper.testUrl('/')
   })
+
+  it('Should present correct username', () => {
+    Http.mockOk()
+    const account = Helper.getLocalStorageItem<{name: string}>('account')
+
+    cy.getByTestId('username').should('contain.text', account.name)
+  })
 })
