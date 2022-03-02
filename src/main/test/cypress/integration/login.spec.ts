@@ -1,8 +1,20 @@
 
 import faker from 'faker'
-import * as Http from '../support/login-mocks'
-import * as FormHelper from '../support/form-helpers'
-import * as Helper from '../support/helpers'
+import * as Http from '../utils/http-mocks'
+import * as FormHelper from '../utils/form-helpers'
+import * as Helper from '../utils/helpers'
+
+const urlMatcher = /login/
+
+export const mockInvalidCredentialsError = (): void => Http.mockUnauthorizedError(urlMatcher)
+
+export const mockUnexpectedError = (): void => Http.mockServerError(urlMatcher)
+
+export const mockSuccess = (): void => {
+  cy.fixture('account').then(account => {
+    Http.mockOk(urlMatcher, account)
+  })
+}
 
 const populateFields = (): void => {
   cy.getByTestId('email')
@@ -52,7 +64,7 @@ describe('Login', () => {
   })
 
   it('Should present error if invalid credentials are provided', () => {
-    Http.mockInvalidCredentialsError()
+    mockInvalidCredentialsError()
 
     simulateValidSubmit()
 
@@ -63,7 +75,7 @@ describe('Login', () => {
   })
 
   it('Should save account if valid credentials are provided', () => {
-    Http.mockOk()
+    mockSuccess()
 
     simulateValidSubmit()
 
@@ -75,7 +87,7 @@ describe('Login', () => {
   })
 
   it('Should presente unexpected error', () => {
-    Http.mockUnexpectedError()
+    mockUnexpectedError()
 
     simulateValidSubmit()
 
@@ -84,7 +96,7 @@ describe('Login', () => {
   })
 
   it('Should prevent multiple submits', () => {
-    Http.mockOk()
+    mockSuccess()
     populateFields()
 
     cy.getByTestId('submit')
@@ -94,7 +106,7 @@ describe('Login', () => {
   })
 
   it('Should not call submit when form is invalid', () => {
-    Http.mockOk()
+    mockSuccess()
 
     cy.getByTestId('email').focus().type(faker.internet.email()).type('{enter}')
 

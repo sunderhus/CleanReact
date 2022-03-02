@@ -1,7 +1,18 @@
 import faker from 'faker'
-import * as FormHelper from '../support/form-helpers'
-import * as Helper from '../support/helpers'
-import * as HttpHelper from '../support/signup-mocks'
+import * as FormHelper from '../utils/form-helpers'
+import * as Helper from '../utils/helpers'
+import * as Http from '../utils/http-mocks'
+
+const urlMatcher = /signup/
+export const mockEmailInUseError = (): void => Http.mockForbiddenError(urlMatcher)
+
+export const mockUnexpectedError = (): void => Http.mockServerError(urlMatcher)
+
+export const mockSuccess = (): void => {
+  cy.fixture('account').then(account => {
+    Http.mockOk(urlMatcher, account)
+  })
+}
 
 const populateFields = (): void => {
   cy.getByTestId('name').type(faker.random.alphaNumeric(5))
@@ -58,14 +69,14 @@ describe('Signup', () => {
   })
 
   it('Should present email in use error on 403 status code', () => {
-    HttpHelper.mockEmailInUseError()
+    mockEmailInUseError()
 
     simulateValidSubmit()
     FormHelper.testMainError('Este e-mail já está em uso.')
   })
 
   it('Should present unexpected error on default cases', () => {
-    HttpHelper.mockUnexpectedError()
+    mockUnexpectedError()
 
     simulateValidSubmit()
 
@@ -73,7 +84,7 @@ describe('Signup', () => {
   })
 
   it('Should save account when account creation returns success', () => {
-    HttpHelper.mockOk()
+    mockSuccess()
 
     simulateValidSubmit()
 
@@ -85,7 +96,7 @@ describe('Signup', () => {
   })
 
   it('Should prevent multiple submitions', () => {
-    HttpHelper.mockOk()
+    mockSuccess()
 
     populateFields()
     cy.getByTestId('submit').dblclick()
@@ -94,7 +105,7 @@ describe('Signup', () => {
   })
 
   it('Should not submit when form is invalid', () => {
-    HttpHelper.mockOk()
+    mockSuccess()
     cy.getByTestId('name').type(faker.random.alphaNumeric(7)).type('{enter}')
 
     Helper.testCallsCount(0)
