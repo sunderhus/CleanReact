@@ -15,7 +15,7 @@ const Icon: React.FC<Props> = ({ iconName, className }: Props) => {
 
   return (
     <div className={[Styles.iconWrap, iconColor, className].join(' ')}>
-      <img className={Styles.icon} src={iconName} alt="thumbs up" />
+      <img className={Styles.icon} src={iconName} alt={iconName} />
 
     </div>
   )
