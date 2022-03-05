@@ -47,6 +47,7 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }: Props) => {
       passwordConfirmation: ''
     }
   })
+
   const handleSubmit = useCallback(async (event: FormEvent) => {
     event.preventDefault()
     try {
@@ -67,31 +68,29 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }: Props) => {
     }
   }, [state])
 
-  useEffect(() => {
+  const validate = (fieldName: string): void => {
     const { name, email, password, passwordConfirmation } = state
-    const formSchema = {
-      name,
-      email,
-      password,
-      passwordConfirmation
-    }
-    const nameError = validation.validate('name', formSchema)
-    const emailError = validation.validate('email', formSchema)
-    const passwordError = validation.validate('password', formSchema)
-    const passwordConfirmationError = validation.validate('passwordConfirmation', formSchema)
-
-    setState({
-      ...state,
-      isFormInvalid: !!nameError || !!emailError || !!passwordError || !!passwordConfirmationError,
+    const formSchema = { name, email, password, passwordConfirmation }
+    const fieldError = validation.validate(fieldName, formSchema)
+    setState((old) => ({
+      ...old,
       errors: {
-        ...state.errors,
-        name: nameError,
-        email: emailError,
-        password: passwordError,
-        passwordConfirmation: passwordConfirmationError
+        ...old.errors,
+        [fieldName]: fieldError
       }
-    })
-  }, [state.name, state.email, state.password, state.passwordConfirmation])
+    }))
+
+    setState((old) => ({
+      ...old,
+      isFormInvalid: !!old.errors.email || !!old.errors.email || !!old.errors.password || !!old.errors.passwordConfirmation
+    }))
+  }
+
+  useEffect(() => validate('name'), [state.name])
+  useEffect(() => validate('email'), [state.email])
+  useEffect(() => validate('password'), [state.password])
+  useEffect(() => validate('passwordConfirmation'), [state.passwordConfirmation])
+
   return (
     <div className={Styles.login}>
       <LoginHeader />

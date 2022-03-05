@@ -73,23 +73,26 @@ const Login: React.FC<Props> = ({ validation, authentication }: Props) => {
     }
   }
 
-  useEffect(() => {
+  const validate = (fieldName: string): void => {
     const { email, password } = state
     const formSchema = { email, password }
-    const emailError = validation.validate('email', formSchema)
-    const passwordError = validation.validate('password', formSchema)
-
-    setState({
-      ...state,
-      isFormInvalid: !!emailError || !!passwordError,
+    const fieldError = validation.validate(fieldName, formSchema)
+    setState((old) => ({
+      ...old,
       errors: {
-        ...state.errors,
-        email: emailError,
-        password: passwordError
-
+        ...old.errors,
+        [fieldName]: fieldError
       }
-    })
-  }, [state.email, state.password])
+    }))
+
+    setState((old) => ({
+      ...old,
+      isFormInvalid: !!old.errors.email || !!old.errors.password
+    }))
+  }
+
+  useEffect(() => validate('email'), [state.email])
+  useEffect(() => validate('password'), [state.password])
 
   return (
     <div className={Styles.login}>
