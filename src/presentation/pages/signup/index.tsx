@@ -82,7 +82,7 @@ const SignUp: React.FC<Props> = ({ validation, addAccount }: Props) => {
 
     setState((old) => ({
       ...old,
-      isFormInvalid: !!old.errors.email || !!old.errors.email || !!old.errors.password || !!old.errors.passwordConfirmation
+      isFormInvalid: !!old.errors.name || !!old.errors.email || !!old.errors.password || !!old.errors.passwordConfirmation
     }))
   }
 
