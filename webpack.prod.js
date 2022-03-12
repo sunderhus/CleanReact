@@ -41,7 +41,8 @@ module.exports = merge(common, {
       'API_URL': 'https://fordevs.herokuapp.com/api'
     }),
     new HtmlWebpackPlugin({
-      template: './template.prod.html'
+      template: './template.prod.html',
+      favicon: './public/favicon.png'
     }),
     new MiniCssExtractPlugin({
       filename: 'main-bundle-[contenthash].css'
