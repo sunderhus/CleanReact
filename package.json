@@ -15,7 +15,7 @@
     "test:ci": "yarn test -- --coverage",
     "test:cypress": "yarn run cypress open",
     "test:cypress:record": "yarn run cypress run",
-    "test:cypress:ci": "yarn run cypress run -c video=false",
+    "test:cypress:ci": "yarn run cypress run",
     "test:coveralls": "yarn test:ci && coveralls < coverage/lcov.info",
     "check": "npx npm-check -u -s"
   },
