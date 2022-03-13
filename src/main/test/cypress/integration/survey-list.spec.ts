@@ -70,7 +70,6 @@ describe('SurveyList', () => {
   it('Should display correctly all surveys', () => {
     mockSuccess()
     cy.getByTestId('survey-list').as('wrapper')
-    cy.get('@wrapper').children('li:not(:empty)').should('have.length', 3)
     cy.getByTestId('survey-list').children('li:nth-child(1)').as('first-survey')
     cy.getByTestId('survey-list').children('li:nth-child(2)').as('second-survey')
     cy.getByTestId('survey-list').children('li:nth-child(3)').as('third-survey')

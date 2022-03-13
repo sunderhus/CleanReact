@@ -101,6 +101,7 @@ describe('Login', () => {
 
     cy.getByTestId('submit')
       .dblclick()
+    cy.wait('@request')
 
     Helper.testCallsCount(1)
   })
