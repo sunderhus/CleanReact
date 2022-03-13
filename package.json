@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node index",
-    "dev": "webpack-dev-server --open --config webpack.dev.js",
+    "dev:base": "webpack-dev-server --config webpack.dev.js",
+    "dev": "yarn  dev:base -- --open",
     "build": "webpack --config webpack.prod.js",
     "test": "cross-env NODE_ICU_DATA=node_modules/full-icu jest --passWithNoTests --no-cache --runInBand",
     "test:watch": "yarn test -- --watch --color",
@@ -14,6 +15,7 @@
     "test:ci": "yarn test -- --coverage",
     "test:cypress": "yarn run cypress open",
     "test:cypress:record": "yarn run cypress run",
+    "test:cypress:ci": "yarn run cypress run -c video=false",
     "test:coveralls": "yarn test:ci && coveralls < coverage/lcov.info",
     "check": "npx npm-check -u -s"
   },
