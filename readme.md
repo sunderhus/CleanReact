@@ -3,6 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/sunderhus/CleanReact/badge.svg?branch=master)](https://coveralls.io/github/sunderhus/CleanReact?branch=master)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=sunderhus_CleanReact&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=sunderhus_CleanReact)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=sunderhus_CleanReact&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=sunderhus_CleanReact)
+[![Known Vulnerabilities](https://snyk.io/test/github/sunderhus/cleanreact/badge.svg)] (https://snyk.io/test/github/sunderhus/cleanreact)
 ---
 
 # TDD + DDD + Design patterns + React + Typescript
