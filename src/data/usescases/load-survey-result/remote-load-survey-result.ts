@@ -1,20 +1,38 @@
+import { LoadSurveyResult } from '@/domain/usecases/load-survey-result'
 import { HttpStatusCode, IHttpGetClient } from '@/data/protocols/http'
 import { AccessDeniedError, UnexpectedError } from '@/domain/Errors'
 
-export class RemoteLoadSurveyResult {
+export class RemoteLoadSurveyResult implements LoadSurveyResult {
   constructor (
     private readonly url,
-    private readonly httpGetClient: IHttpGetClient
+    private readonly httpGetClient: IHttpGetClient<RemoteLoadSurveyResult.Model>
   ) { }
 
-  async load (): Promise<void> {
+  async load (): Promise<LoadSurveyResult.Model> {
     const httpResponse = await this.httpGetClient.get({ url: this.url })
 
+    const remoteSurveyResult = httpResponse.body
+
     switch (httpResponse.statusCode) {
-      case HttpStatusCode.ok: break
-      case HttpStatusCode.notFound: throw new UnexpectedError()
-      case HttpStatusCode.serverError: throw new UnexpectedError()
-      default: throw new AccessDeniedError()
+      case HttpStatusCode.ok:
+        return Object.assign({}, remoteSurveyResult, {
+          date: new Date(remoteSurveyResult.date)
+        })
+      case HttpStatusCode.forbidden: throw new AccessDeniedError()
+      default: throw new UnexpectedError()
     }
+  }
+}
+
+export namespace RemoteLoadSurveyResult{
+  export type Model = {
+    question: string
+    date: string
+    answers: Array<{
+      image?: string
+      asnwer: string
+      count: number
+      percent: number
+    }>
   }
 }
