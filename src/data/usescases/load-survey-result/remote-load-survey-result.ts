@@ -4,7 +4,7 @@ import { AccessDeniedError, UnexpectedError } from '@/domain/Errors'
 
 export class RemoteLoadSurveyResult implements LoadSurveyResult {
   constructor (
-    private readonly url,
+    private readonly url: string,
     private readonly httpGetClient: IHttpGetClient<RemoteLoadSurveyResult.Model>
   ) { }
 
