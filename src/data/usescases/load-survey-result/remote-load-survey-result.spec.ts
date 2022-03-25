@@ -1,16 +1,17 @@
 import { HttpStatusCode } from '@/data/protocols/http'
 import { HttpGetClientSpy } from '@/data/test'
+import { mockRemoteSurveyResultModel } from '@/data/test/mock-remote-survey-result'
 import { AccessDeniedError, UnexpectedError } from '@/domain/Errors'
 import faker from 'faker'
 import { RemoteLoadSurveyResult } from './remote-load-survey-result'
 
 type SutTypes = {
   sut: RemoteLoadSurveyResult
-  httpClientSpy: HttpGetClientSpy<unknown>
+  httpClientSpy: HttpGetClientSpy<RemoteLoadSurveyResult.Model>
 }
 
 const makeSut = (url = faker.internet.url()): SutTypes => {
-  const httpClientSpy = new HttpGetClientSpy()
+  const httpClientSpy = new HttpGetClientSpy<RemoteLoadSurveyResult.Model>()
   const sut = new RemoteLoadSurveyResult(url, httpClientSpy)
   return {
     sut,
@@ -22,6 +23,8 @@ describe('RemoteLoadSurveyResult', () => {
   it('Should call HttpGetClient with correct url', async () => {
     const url = faker.internet.url()
     const { sut, httpClientSpy } = makeSut(url)
+    const httpResult = mockRemoteSurveyResultModel()
+    httpClientSpy.response.body = httpResult
 
     await sut.load()
 
@@ -53,5 +56,22 @@ describe('RemoteLoadSurveyResult', () => {
     const promise = sut.load()
 
     await expect(promise).rejects.toThrowError(new UnexpectedError())
+  })
+
+  it('SHould return a survey when HttpGetClient return 200', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    const httpResult = mockRemoteSurveyResultModel()
+    httpClientSpy.response = {
+      statusCode: HttpStatusCode.ok,
+      body: httpResult
+    }
+
+    const httpResponse = await sut.load()
+
+    expect(httpResponse).toEqual({
+      question: httpResult.question,
+      answers: httpResult.answers,
+      date: new Date(httpResult.date)
+    })
   })
 })
