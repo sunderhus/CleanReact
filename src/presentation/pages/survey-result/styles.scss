@@ -1,11 +1,14 @@
 @import '../../styles/colors.scss';
+@import '../../styles/animations.scss';
+@import '../../styles/breakpoints.scss';
+
 
 .surveyResultWrap{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
-  background-color: $disabledBackground;
+  background-color: $background;
 
   .contentWrap{
     display: flex;
@@ -15,6 +18,48 @@
     width: 100%;
     flex-grow: 1;
     padding: 4rem;
+
+    &:empty{
+      position: relative;
+      overflow: hidden;
+      background-repeat: no-repeat;
+      background-image: 
+        linear-gradient(to right, $disabledBackground, $disabledBackground),
+        linear-gradient(to right, $disabledBackground, $disabledBackground),
+        linear-gradient(to right, $disabledBackground, $disabledBackground),
+        linear-gradient(to right, $disabledBackground, $disabledBackground),
+        linear-gradient(to right, $disabledBackground, $disabledBackground),
+        linear-gradient(to right, $disabledBackground, $disabledBackground),
+        linear-gradient(to right, $disabledBackground, $disabledBackground);
+      background-position: 
+        4rem 4rem,
+        13.6rem 5rem,
+        13.6rem 8rem,
+        13.6rem 11rem,
+        4rem 17.2rem,
+        4rem 27rem,
+        4rem 37.2rem;
+      background-size:
+        8rem 10rem,
+        calc(70% - 17.6rem) 2rem,
+        calc(100% - 17.6rem) 2rem,
+        calc(80% - 17.6rem) 2rem,
+        calc(100% - 8rem) 8.2rem,
+        calc(100% - 8rem) 8.2rem,
+        calc(100% - 8rem) 8.2rem;
+
+      &:after{
+        position: absolute;
+        content: "";
+        transform: translateX(-100%);
+        background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba($white, 0.2), rgba(0, 0, 0, 0));
+        animation: shimmer 1s infinite;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+      }
+    }
 
     hgroup{
       display: flex;
@@ -77,4 +122,59 @@
       margin-top: 2.4rem;
     }
   }
+}
+
+
+@media only screen and (max-width: $tablet) {
+  .surveyResultWrap{
+    .contentWrap{
+      &:empty{
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-position: 
+          4rem 4rem,
+          11.6rem 5rem,
+          11.6rem 8rem,
+          11.6rem 11rem,
+          4rem 17.2rem,
+          4rem 26.4rem,
+          4rem 35.2rem;
+        background-size:
+          6rem 10rem,
+          calc(70% - 17.6rem) 2rem,
+          calc(100% - 17.6rem) 2rem,
+          calc(80% - 17.6rem) 2rem,
+          calc(100% - 8rem) 7.2rem,
+          calc(100% - 8rem) 7.2rem,
+          calc(100% - 8rem) 7.2rem;
+      }
+  
+      hgroup{
+        h2{
+          font-size: 1.8rem;
+        }
+        .calendarWrap{
+          width:6rem;
+          margin-right: 1.6rem;
+        }
+      }
+  
+      .answersList{
+        li{
+          img{
+            width: 4rem;
+            height: 4rem;
+            border-radius: 0.2rem;
+          }
+          .answer{
+            font-size: 1.6rem;
+          }
+          .percent{
+            font-size: 2rem;
+          }
+        }
+      }
+    }
+  }
+  
 }
