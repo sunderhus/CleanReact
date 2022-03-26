@@ -33,35 +33,10 @@
       top: -1rem;
       right: -1rem;
     }
-
-    time {
-      display: flex;
-      flex-direction: column;
-      align-self: center;
-      justify-content: center;
-      align-items: center;
-      flex-shrink: 0;
-      background-color: $primaryLight;
-      border-radius: 0.8rem;
+    
+    .calendarWrap{
       margin-left: 2.4rem;
-      width: 6rem;
-      height: 10rem;
-      color: $white;
-      font-size: 1.6rem;
-
-      .day {
-        font-size: 3.2rem;
-        font-weight: bold;
-      }
-      .month {
-        font-size: 1.6rem;
-        text-transform: lowercase;
-        margin: 0 0 0.4rem;
-      }
-
-      .year {
-        font-size: 2rem;
-      }
+      align-self: center;
     }
 
     p {
