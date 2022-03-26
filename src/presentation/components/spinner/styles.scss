@@ -6,6 +6,11 @@
   width: 80px;
   height: 1.3rem;
 
+  &.negative{
+    div {
+      background-color: $white;
+    }
+  }
   
   div {
     position: absolute;
@@ -15,9 +20,6 @@
     background-color: $primaryLight;
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
 
-    &.negative{
-      background-color: $white;
-    }
     
     &:nth-child(1) {
       left: 8px;

@@ -10,10 +10,7 @@ const Spinner: React.FC<Props> = ({ className, isNegative, ...props }: Props) =>
     <div
       {...props}
       data-testid="spinner"
-      className={`
-        ${Styles.spinner}
-        ${className}
-        ${isNegative && 'negative'}
+      className={`${Styles.spinner} ${isNegative && Styles.negative} ${className}
       `}>
       <div></div>
       <div></div>
