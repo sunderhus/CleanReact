@@ -1,0 +1,80 @@
+@import '../../styles/colors.scss';
+
+.surveyResultWrap{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  background-color: $disabledBackground;
+
+  .contentWrap{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    max-width: 100%;
+    width: 100%;
+    flex-grow: 1;
+    padding: 4rem;
+
+    hgroup{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-bottom: 1.6rem;
+
+      h2{
+        color: $primaryDark;
+        font-size: 2.2rem;
+        font-weight: bold;
+      }
+
+      .calendarWrap{
+        width:8rem;
+        margin-right: 1.6rem;
+      }
+    }
+
+    .answersList{
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+
+      li{
+        display: flex;
+        flex-direction:row;
+        justify-content: space-between;
+        background-color: $white;
+        align-items: center;
+        padding: 1.6rem;
+        border-radius: 0.8rem;
+        color: $primaryDark;
+        margin-top: 1.6rem;
+
+        &.active{
+          border: 0.2rem solid $primaryLight;
+        }
+
+        img{
+          width: 5rem;
+          height: 5rem;
+          border-radius: 0.2rem;
+        }
+
+        .answer{
+          flex-grow: 1;
+          margin:0 1.6rem;
+          font-size: 2rem;
+        }
+
+        .percent{
+          font-size: 3rem;
+
+        }
+      }
+    }
+
+    button{
+      margin-top: 2.4rem;
+    }
+  }
+}
