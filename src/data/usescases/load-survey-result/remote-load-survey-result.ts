@@ -33,6 +33,7 @@ export namespace RemoteLoadSurveyResult{
       asnwer: string
       count: number
       percent: number
+      isCurrentAccountAnswer: boolean
     }>
   }
 }
