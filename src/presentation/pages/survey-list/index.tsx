@@ -1,9 +1,9 @@
 import { LoadSurveyList } from '@/domain/usecases/load-survey-list'
-import { Footer, Header } from '@/presentation/components'
+import { Footer, Header, Error } from '@/presentation/components'
 import { useErrorHandler } from '@/presentation/hooks'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Error, List, SurveyContext } from './components/'
+import { List, SurveyContext } from './components/'
 import Styles from './styles.scss'
 
 interface Props {
@@ -17,7 +17,16 @@ export const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
     reload: false
   })
   const history = useHistory()
+
   const handleError = useErrorHandler((error: Error) => setState(old => ({ ...old, error: error.message })))
+
+  const handleReload = useCallback(() => {
+    setState(old => ({
+      surveys: [],
+      error: '',
+      reload: !old.reload
+    }))
+  }, [])
 
   useEffect(() => {
     loadSurveyList.loadAll()
@@ -39,7 +48,15 @@ export const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
           state,
           setState
         }}>
-          {state.error ? <Error /> : <List />}
+          {state.error
+            ? (
+              <Error
+                error={state.error}
+                reload={handleReload}
+              />
+            )
+            : <List />
+          }
         </SurveyContext.Provider>
       </div>
       <Footer />

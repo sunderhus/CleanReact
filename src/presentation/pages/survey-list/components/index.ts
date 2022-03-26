@@ -1,5 +1,4 @@
 export { default as SurveyItem } from './survey-item'
 export { default as SurveyItemEmpty } from './survey-item-empty'
 export { default as List } from './list'
-export { default as Error } from './error'
 export { default as SurveyContext } from './context'
