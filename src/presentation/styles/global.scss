@@ -21,6 +21,8 @@ button {
   line-height: 5rem;
   outline: none;
   transition: opacity 0.2s linear;
+  outline: none;
+  
   &:hover{
     opacity: 0.9;
   }
