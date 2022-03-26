@@ -1,0 +1,31 @@
+@import '../../styles/colors.scss';
+
+.loadingWrap{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba($white, 0.8);
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  cursor: wait;
+
+  .loading{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba($black, 0.9);
+    width: 30rem;
+    height: 15rem;
+    border-radius: 0.8rem;
+    color: $white;
+
+    span{
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+    }
+  }
+}
