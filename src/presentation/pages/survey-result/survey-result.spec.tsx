@@ -1,10 +1,14 @@
 import React from 'react'
-import { SurveyResult } from '@/presentation/pages'
-import { render, screen } from '@testing-library/react'
+import { LoadSurveyResultSpy, mockAccountModel } from '@/domain/test'
 import { ApiContext } from '@/presentation/contexts'
-import { mockAccountModel } from '@/domain/test'
+import { SurveyResult } from '@/presentation/pages'
+import { render, screen, waitFor } from '@testing-library/react'
 
-const makeSut = (): void => {
+type SutTypes = {
+  loadSurveyResultSpy: LoadSurveyResultSpy
+}
+
+const makeSut = (loadSurveyResultSpy = new LoadSurveyResultSpy()): SutTypes => {
   const setCurrentAccountMock = jest.fn()
   const getCurrentAccountMock = jest.fn(() => mockAccountModel())
 
@@ -13,13 +17,17 @@ const makeSut = (): void => {
       setCurrentAccount: setCurrentAccountMock,
       getCurrentAccount: getCurrentAccountMock
     }}>
-      <SurveyResult />
+      <SurveyResult loadSurveyResult={loadSurveyResultSpy} />
     </ApiContext.Provider>
   )
+
+  return {
+    loadSurveyResultSpy
+  }
 }
 
 describe('SurveyResult', () => {
-  it('Should start with correct initial state', () => {
+  it('Should start with correct initial state', async () => {
     makeSut()
 
     const surveyResult = screen.getByTestId('survey-result')
@@ -29,5 +37,17 @@ describe('SurveyResult', () => {
     expect(surveyResult).toBeEmptyDOMElement()
     expect(loading).not.toBeInTheDocument()
     expect(error).not.toBeInTheDocument()
+
+    await waitFor(() => surveyResult)
+  })
+
+  it('Should call LoadSurveyResult', async () => {
+    const { loadSurveyResultSpy } = makeSut()
+
+    await waitFor(() => {
+      screen.getAllByTestId('survey-result')
+    })
+
+    expect(loadSurveyResultSpy.callsCount).toBe(1)
   })
 })
