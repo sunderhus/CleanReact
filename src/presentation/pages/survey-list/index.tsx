@@ -3,7 +3,7 @@ import { Footer, Header, Error } from '@/presentation/components'
 import { useErrorHandler } from '@/presentation/hooks'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { List, SurveyContext } from './components/'
+import { List } from './components/'
 import Styles from './styles.scss'
 
 interface Props {
@@ -44,20 +44,16 @@ export const SurveyList: React.FC<Props> = ({ loadSurveyList }: Props) => {
       <div className={Styles.contentWrap}>
         <h2>Enquetes</h2>
 
-        <SurveyContext.Provider value={{
-          state,
-          setState
-        }}>
-          {state.error
-            ? (
-              <Error
-                error={state.error}
-                reload={handleReload}
-              />
-            )
-            : <List />
-          }
-        </SurveyContext.Provider>
+        {state.error
+          ? (
+            <Error
+              error={state.error}
+              reload={handleReload}
+            />
+          )
+          : <List surveys={state.surveys} />
+        }
+
       </div>
       <Footer />
     </div>
