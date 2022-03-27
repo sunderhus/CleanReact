@@ -1,18 +1,27 @@
 import FlipMove from 'react-flip-move'
 import { Calendar, Error, Footer, Header, Loading } from '@/presentation/components'
 import faker from 'faker'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Styles from './styles.scss'
 import { LoadSurveyResult } from '@/domain/usecases'
 
-const SurveyResult: React.FC = () => {
+type Props = {
+  loadSurveyResult: LoadSurveyResult
+}
+
+const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
   const [hasError, setHasError] = useState(false)
-  const [isLoading] = useState(false)
-  const [survey] = useState<LoadSurveyResult.Model | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [survey, setSurvey] = useState<LoadSurveyResult.Model | null>(null)
 
   const handleReload = (): void => {
     setHasError(false)
   }
+
+  useEffect(() => {
+    loadSurveyResult.load()
+      .then(setSurvey)
+  }, [])
 
   return (
     <div className={Styles.surveyResultWrap}>
