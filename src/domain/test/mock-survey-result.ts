@@ -11,13 +11,13 @@ export const mockSurveyResultModel = (): LoadSurveyResult.Model => {
         count: faker.datatype.number(),
         percent: faker.datatype.number({ max: 100, min: 0 }),
         image: faker.image.imageUrl(),
-        isCurrentAccountAnswer: faker.datatype.boolean()
+        isCurrentAccountAnswer: true
       },
       {
         asnwer: faker.lorem.words(8),
         count: faker.datatype.number(),
         percent: faker.datatype.number({ max: 100, min: 0 }),
-        isCurrentAccountAnswer: faker.datatype.boolean()
+        isCurrentAccountAnswer: false
       }
     ]
   }
