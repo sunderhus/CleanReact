@@ -1,9 +1,8 @@
-import FlipMove from 'react-flip-move'
-import { Calendar, Error, Footer, Header, Loading } from '@/presentation/components'
-import faker from 'faker'
-import React, { useEffect, useState } from 'react'
-import Styles from './styles.scss'
 import { LoadSurveyResult } from '@/domain/usecases'
+import { Calendar, Error, Footer, Header, Loading } from '@/presentation/components'
+import React, { useEffect, useState } from 'react'
+import FlipMove from 'react-flip-move'
+import Styles from './styles.scss'
 
 type Props = {
   loadSurveyResult: LoadSurveyResult
@@ -30,26 +29,29 @@ const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
         {!!survey && (
           <>
             <hgroup>
-              <Calendar date={new Date()} className={Styles.calendarWrap} />
-              <h2>{faker.random.words(15)}</h2>
+              <Calendar date={survey.date} className={Styles.calendarWrap} />
+              <h2 data-testid="question">{survey.question}</h2>
             </hgroup>
 
-            <FlipMove className={Styles.answersList}>
-              <li>
-                <img src={faker.image.imageUrl()} alt="fake photo" />
-                <span className={Styles.answer}>ReactJS</span>
-                <span className={Styles.percent}>50%</span>
-              </li>
-              <li className={Styles.active}>
-                <img src={faker.image.imageUrl()} alt="fake photo" />
-                <span className={Styles.answer}>ReactJS</span>
-                <span className={Styles.percent}>50%</span>
-              </li>
-              <li>
-                <img src={faker.image.imageUrl()} alt="fake photo" />
-                <span className={Styles.answer}>ReactJS</span>
-                <span className={Styles.percent}>50%</span>
-              </li>
+            <FlipMove data-testid="answers" className={Styles.answersList}>
+              {survey.answers.map(answer => (
+                <li
+                  className={
+                    answer.isCurrentAccountAnswer ? Styles.active : ''}
+                  data-testid="answer-wrap"
+                  key={answer.asnwer}
+                >
+                  {answer.image && (
+                    <img
+                      data-testid="image"
+                      src={answer.image}
+                      alt={answer.asnwer}
+                    />)
+                  }
+                  <span data-testid="answer" className={Styles.answer}>{answer.asnwer}</span>
+                  <span data-testid="percent" className={Styles.percent}>{answer.percent}%</span>
+                </li>
+              ))}
             </FlipMove>
 
             <button>Voltar</button>
