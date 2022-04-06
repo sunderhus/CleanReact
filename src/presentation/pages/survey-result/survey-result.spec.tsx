@@ -1,29 +1,39 @@
-import { UnexpectedError } from '@/domain/Errors'
+import React from 'react'
+import { AccessDeniedError, UnexpectedError } from '@/domain/Errors'
 import { LoadSurveyResultSpy, mockAccountModel, mockSurveyResultModel } from '@/domain/test'
 import { ApiContext } from '@/presentation/contexts'
 import { SurveyResult } from '@/presentation/pages'
 import { findByRole, findByTestId, render, screen, waitFor } from '@testing-library/react'
-import React from 'react'
+import { Router } from 'react-router-dom'
+import { createMemoryHistory, MemoryHistory } from 'history'
 
 type SutTypes = {
   loadSurveyResultSpy: LoadSurveyResultSpy
+  history: MemoryHistory
 }
 
 const makeSut = (loadSurveyResultSpy = new LoadSurveyResultSpy()): SutTypes => {
   const setCurrentAccountMock = jest.fn()
   const getCurrentAccountMock = jest.fn(() => mockAccountModel())
+  const memoryHistory = createMemoryHistory({
+    initialEntries: ['/survey']
+  })
 
   render(
     <ApiContext.Provider value={{
       setCurrentAccount: setCurrentAccountMock,
       getCurrentAccount: getCurrentAccountMock
     }}>
-      <SurveyResult loadSurveyResult={loadSurveyResultSpy} />
+      <Router history={memoryHistory}>
+
+        <SurveyResult loadSurveyResult={loadSurveyResultSpy} />
+      </Router>
     </ApiContext.Provider>
   )
 
   return {
-    loadSurveyResultSpy
+    loadSurveyResultSpy,
+    history: memoryHistory
   }
 }
 
@@ -91,5 +101,16 @@ describe('SurveyResult', () => {
     expect(screen.queryByTestId('heading')).not.toBeInTheDocument()
     expect(screen.getByTestId('error')).toHaveTextContent(error.message)
     expect(screen.queryByTestId('loading')).not.toBeInTheDocument()
+  })
+
+  it('Should logout on AccessDeniedError', async () => {
+    const loadSurveyResultSpy = new LoadSurveyResultSpy()
+    const error = new AccessDeniedError()
+    jest.spyOn(loadSurveyResultSpy, 'load').mockRejectedValueOnce(error)
+    const { history } = makeSut(loadSurveyResultSpy)
+
+    await screen.findByTestId('survey-result')
+
+    expect(history.location.pathname).toBe('/login')
   })
 })
