@@ -16,17 +16,21 @@ const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
   })
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [reload, setReload] = useState(false)
   const [survey, setSurvey] = useState<LoadSurveyResult.Model | null>(null)
 
   const handleReload = (): void => {
     setError('')
+    setIsLoading(false)
+    setSurvey(null)
+    setReload(true)
   }
 
   useEffect(() => {
     loadSurveyResult.load()
       .then(setSurvey)
       .catch(handleError)
-  }, [])
+  }, [reload])
 
   return (
     <div className={Styles.surveyResultWrap}>
