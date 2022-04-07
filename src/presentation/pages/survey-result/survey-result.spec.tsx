@@ -3,7 +3,7 @@ import { AccessDeniedError, UnexpectedError } from '@/domain/Errors'
 import { LoadSurveyResultSpy, mockAccountModel, mockSurveyResultModel } from '@/domain/test'
 import { ApiContext } from '@/presentation/contexts'
 import { SurveyResult } from '@/presentation/pages'
-import { findByRole, findByTestId, render, screen, waitFor } from '@testing-library/react'
+import { findByRole, findByTestId, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory, MemoryHistory } from 'history'
 
@@ -25,7 +25,6 @@ const makeSut = (loadSurveyResultSpy = new LoadSurveyResultSpy()): SutTypes => {
       getCurrentAccount: getCurrentAccountMock
     }}>
       <Router history={memoryHistory}>
-
         <SurveyResult loadSurveyResult={loadSurveyResultSpy} />
       </Router>
     </ApiContext.Provider>
@@ -112,5 +111,18 @@ describe('SurveyResult', () => {
     await screen.findByTestId('survey-result')
 
     expect(history.location.pathname).toBe('/login')
+  })
+
+  it('Should call LoadSurveyResult on reload', async () => {
+    const loadSurveyResultSpy = new LoadSurveyResultSpy()
+    const error = new UnexpectedError()
+    jest.spyOn(loadSurveyResultSpy, 'load').mockRejectedValueOnce(error)
+    makeSut(loadSurveyResultSpy)
+
+    await screen.findByTestId('survey-result')
+    fireEvent.click(screen.getByTestId('reload'))
+    await screen.findByTestId('survey-result')
+
+    expect(loadSurveyResultSpy.callsCount).toBe(1)
   })
 })
