@@ -29,9 +29,13 @@ const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
   }
 
   useEffect(() => {
+    setIsLoading(true)
     loadSurveyResult.load()
-      .then(setSurvey)
+      .then((result) => {
+        setSurvey(result)
+      })
       .catch(handleError)
+      .finally(() => setIsLoading(false))
   }, [reload])
 
   return (
@@ -70,7 +74,7 @@ const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
           </>
         )}
 
-        {isLoading && <Loading />}
+        {isLoading && !error && <Loading />}
         {!!error && (
           <Error
             error={error}

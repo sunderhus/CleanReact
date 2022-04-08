@@ -40,16 +40,14 @@ const makeSut = (loadSurveyResultSpy = new LoadSurveyResultSpy()): SutTypes => {
 describe('SurveyResult', () => {
   it('Should start with correct initial state', async () => {
     makeSut()
-
     const surveyResult = screen.getByTestId('survey-result')
     const error = screen.queryByTestId('error')
     const loading = screen.queryByTestId('loading')
 
-    expect(surveyResult).toBeEmptyDOMElement()
+    await screen.findByTestId('loading')
+    expect(surveyResult).not.toBeEmptyDOMElement()
     expect(loading).not.toBeInTheDocument()
     expect(error).not.toBeInTheDocument()
-
-    await waitFor(() => surveyResult)
   })
 
   it('Should call LoadSurveyResult', async () => {
