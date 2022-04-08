@@ -7,14 +7,14 @@ export const mockSurveyResultModel = (): LoadSurveyResult.Model => {
     date: faker.date.recent(),
     answers: [
       {
-        asnwer: faker.lorem.words(8),
+        answer: faker.lorem.words(8),
         count: faker.datatype.number(),
         percent: faker.datatype.number({ max: 100, min: 0 }),
         image: faker.image.imageUrl(),
         isCurrentAccountAnswer: true
       },
       {
-        asnwer: faker.lorem.words(8),
+        answer: faker.lorem.words(8),
         count: faker.datatype.number(),
         percent: faker.datatype.number({ max: 100, min: 0 }),
         isCurrentAccountAnswer: false

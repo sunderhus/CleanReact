@@ -6,14 +6,14 @@ export const mockRemoteSurveyResultModel = (): RemoteLoadSurveyResult.Model => {
   return {
     answers: [
       {
-        asnwer: faker.lorem.words(8),
+        answer: faker.lorem.words(8),
         count: faker.datatype.number(),
         percent: faker.datatype.number({ max: 100, min: 0 }),
         image: faker.image.imageUrl(),
         isCurrentAccountAnswer: faker.datatype.boolean()
       },
       {
-        asnwer: faker.lorem.words(4),
+        answer: faker.lorem.words(4),
         count: faker.datatype.number(),
         percent: faker.datatype.number({ max: 100, min: 0 }),
         isCurrentAccountAnswer: faker.datatype.boolean()
