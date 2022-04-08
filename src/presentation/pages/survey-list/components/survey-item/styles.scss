@@ -51,19 +51,26 @@
     background-color: $primary;
     border-bottom-left-radius: 0.8rem;
     border-bottom-right-radius: 0.8rem;
-    color: $white;
-    font-size: 1.4rem;
-    line-height: 4rem;
-    text-align: center;
-    text-transform: lowercase;
     cursor: pointer;
     transition: background-color 0.2s linear;
+    
     &:hover {
       background-color: $primaryDark;
     }
-    &:first-letter {
-      text-transform: uppercase;
+
+    a{
+      color: $white;
+      font-size: 1.4rem;
+      line-height: 4rem;
+      text-align: center;
+      text-transform: lowercase;
+      display: block;
+      text-decoration: none;
+      &:first-letter {
+        text-transform: uppercase;
+      }
     }
+    
   }
 }
 
