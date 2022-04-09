@@ -2,14 +2,14 @@
 @import '../../styles/animations.scss';
 @import '../../styles/breakpoints.scss';
 
-.surveyResultWrap{
+.surveyResultWrap {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
   background-color: $background;
 
-  .contentWrap{
+  .contentWrap {
     display: flex;
     flex-direction: column;
     align-self: center;
@@ -18,11 +18,11 @@
     flex-grow: 1;
     padding: 4rem;
 
-    &:empty{
+    &:empty {
       position: relative;
       overflow: hidden;
       background-repeat: no-repeat;
-      background-image: 
+      background-image:
         linear-gradient(to right, $disabledBackground, $disabledBackground),
         linear-gradient(to right, $disabledBackground, $disabledBackground),
         linear-gradient(to right, $disabledBackground, $disabledBackground),
@@ -30,7 +30,7 @@
         linear-gradient(to right, $disabledBackground, $disabledBackground),
         linear-gradient(to right, $disabledBackground, $disabledBackground),
         linear-gradient(to right, $disabledBackground, $disabledBackground);
-      background-position: 
+      background-position:
         4rem 4rem,
         13.6rem 5rem,
         13.6rem 8rem,
@@ -47,7 +47,7 @@
         calc(100% - 8rem) 8.2rem,
         calc(100% - 8rem) 8.2rem;
 
-      &:after{
+      &:after {
         position: absolute;
         content: "";
         transform: translateX(-100%);
@@ -64,12 +64,12 @@
 }
 
 @media only screen and (max-width: $tablet) {
-  .surveyResultWrap{
-    .contentWrap{
-      &:empty{
+  .surveyResultWrap {
+    .contentWrap {
+      &:empty {
         overflow: hidden;
         background-repeat: no-repeat;
-        background-position: 
+        background-position:
           4rem 4rem,
           11.6rem 5rem,
           11.6rem 8rem,
@@ -86,8 +86,8 @@
           calc(100% - 8rem) 7.2rem,
           calc(100% - 8rem) 7.2rem;
       }
-  
+
     }
   }
-  
+
 }

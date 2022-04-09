@@ -1,11 +1,11 @@
-import React from 'react'
 import { AccessDeniedError, UnexpectedError } from '@/domain/Errors'
 import { LoadSurveyResultSpy, mockAccountModel, mockSurveyResultModel } from '@/domain/test'
 import { ApiContext } from '@/presentation/contexts'
 import { SurveyResult } from '@/presentation/pages'
-import { findByRole, findByTestId, fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { Router } from 'react-router-dom'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { createMemoryHistory, MemoryHistory } from 'history'
+import React from 'react'
+import { Router } from 'react-router-dom'
 
 type SutTypes = {
   loadSurveyResultSpy: LoadSurveyResultSpy
