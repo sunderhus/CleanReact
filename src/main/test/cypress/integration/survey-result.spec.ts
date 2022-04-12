@@ -35,4 +35,10 @@ describe('SurveyResult', () => {
 
     cy.getByTestId('answers').should('exist')
   })
+
+  it('Should logout on AccessDeniedError', () => {
+    mockAccessDeniedError()
+
+    Helper.testUrl('/login')
+  })
 })
