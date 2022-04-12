@@ -18,7 +18,7 @@ describe('SurveyList', () => {
     cy.fixture('account').then((account) => {
       Helper.setLocalStorageItem('account', account)
     })
-    cy.visit('')
+    cy.visit('/')
   })
 
   it('Should present error on UnexpectedError', () => {
@@ -41,7 +41,7 @@ describe('SurveyList', () => {
   it('Should logout on AccessDeniedError', () => {
     mockAccessDeniedError()
 
-    Helper.testUrl('/')
+    Helper.testUrl('/login')
   })
 
   it('Should present correct username', () => {
