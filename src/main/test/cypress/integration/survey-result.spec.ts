@@ -8,8 +8,8 @@ export const mockUnexpectedError = (): void => Http.mockServerError(urlMatcher)
 export const mockAccessDeniedError = (): void => Http.mockForbiddenError(urlMatcher)
 
 export const mockSuccess = (): void => {
-  cy.fixture('survey-list').then(surveys => {
-    Http.mockOk(urlMatcher, surveys)
+  cy.fixture('survey-result').then(surveyResult => {
+    Http.mockOk(urlMatcher, surveyResult)
   })
 }
 
@@ -25,5 +25,14 @@ describe('SurveyResult', () => {
     mockUnexpectedError()
 
     cy.getByTestId('error').should('contain.text', 'Algo de errado aconteceu. Tente novamente em breve')
+  })
+
+  it('Should reload on button click', () => {
+    mockUnexpectedError()
+    cy.getByTestId('error').should('exist')
+    mockSuccess()
+    cy.getByTestId('reload').click()
+
+    cy.getByTestId('answers').should('exist')
   })
 })
