@@ -1,15 +1,19 @@
-import { HttpStatusCode, IHttpPostClient } from '@/data/protocols/http'
+import { HttpStatusCode, IHttpClient } from '@/data/protocols/http'
 import { InvalidCredentialsError, UnexpectedError } from '@/domain/Errors'
 import { Authentication } from '@/domain/usecases'
 
 export class RemoteAuthentication implements Authentication {
   constructor (
     private readonly url: string,
-    private readonly httpPostClient: IHttpPostClient<RemoteAuthentication.Params, RemoteAuthentication.Model>
+    private readonly httpClient: IHttpClient<RemoteAuthentication.Model>
   ) { }
 
   async auth (params: Authentication.Params): Promise<Authentication.Model> {
-    const httpResponse = await this.httpPostClient.post({ url: this.url, body: params })
+    const httpResponse = await this.httpClient.request({
+      url: this.url,
+      body: params,
+      method: 'POST'
+    })
 
     switch (httpResponse.statusCode) {
       case HttpStatusCode.ok: return httpResponse.body

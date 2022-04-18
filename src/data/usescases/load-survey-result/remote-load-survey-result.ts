@@ -1,15 +1,15 @@
 import { LoadSurveyResult } from '@/domain/usecases/load-survey-result'
-import { HttpStatusCode, IHttpGetClient } from '@/data/protocols/http'
+import { HttpStatusCode, IHttpClient } from '@/data/protocols/http'
 import { AccessDeniedError, UnexpectedError } from '@/domain/Errors'
 
 export class RemoteLoadSurveyResult implements LoadSurveyResult {
   constructor (
     private readonly url: string,
-    private readonly httpGetClient: IHttpGetClient<RemoteLoadSurveyResult.Model>
+    private readonly httpClient: IHttpClient<RemoteLoadSurveyResult.Model>
   ) { }
 
   async load (): Promise<LoadSurveyResult.Model> {
-    const httpResponse = await this.httpGetClient.get({ url: this.url })
+    const httpResponse = await this.httpClient.request({ url: this.url, method: 'GET' })
 
     const remoteSurveyResult = httpResponse.body
 
