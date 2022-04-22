@@ -64,4 +64,21 @@ describe('RemoteSaveSurveyResult', () => {
 
     await expect(promise).rejects.toThrowError(new UnexpectedError())
   })
+
+  it('Should return a SurveyResult when HttpClient returns 200', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    const httpResult = mockRemoteSurveyResultModel()
+    httpClientSpy.response = {
+      statusCode: HttpStatusCode.ok,
+      body: httpResult
+    }
+
+    const httpResponse = await sut.save(mockSaveSurveyResultParams())
+
+    expect(httpResponse).toEqual({
+      question: httpResult.question,
+      answers: httpResult.answers,
+      date: new Date(httpResult.date)
+    })
+  })
 })
