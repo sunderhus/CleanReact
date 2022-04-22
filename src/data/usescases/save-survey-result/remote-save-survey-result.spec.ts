@@ -1,6 +1,7 @@
 import { HttpStatusCode } from '@/data/protocols/http'
 import { HttpClientSpy } from '@/data/test'
 import { mockRemoteSurveyResultModel } from '@/data/test/mock-remote-survey-result'
+import { AccessDeniedError, UnexpectedError } from '@/domain/Errors'
 import { mockSaveSurveyResultParams } from '@/domain/test'
 import faker from 'faker'
 import { RemoteSaveSurveyResult } from './remote-save-survey-result'
@@ -35,5 +36,32 @@ describe('RemoteSaveSurveyResult', () => {
     expect(httpClientSpy.url).toBe(url)
     expect(httpClientSpy.method).toBe('PUT')
     expect(httpClientSpy.body).toBe(saveSurveyResultParams)
+  })
+
+  it('Should return access denied error when HttpClient returns 403', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    httpClientSpy.response.statusCode = HttpStatusCode.forbidden
+
+    const promise = sut.save(mockSaveSurveyResultParams())
+
+    await expect(promise).rejects.toThrow(new AccessDeniedError())
+  })
+
+  it('Should return unexpected error when HttpClient returns 404', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    httpClientSpy.response.statusCode = HttpStatusCode.notFound
+
+    const promise = sut.save(mockSaveSurveyResultParams())
+
+    await expect(promise).rejects.toThrowError(new UnexpectedError())
+  })
+
+  it('Should return unexpected error when HttpClient returns 500', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    httpClientSpy.response.statusCode = HttpStatusCode.serverError
+
+    const promise = sut.save(mockSaveSurveyResultParams())
+
+    await expect(promise).rejects.toThrowError(new UnexpectedError())
   })
 })
