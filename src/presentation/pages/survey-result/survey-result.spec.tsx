@@ -134,4 +134,16 @@ describe('SurveyResult', () => {
 
     expect(history.location.pathname).toBe('/')
   })
+
+  it('Should not present loading when user click on  active answer', async () => {
+    makeSut()
+
+    await screen.findByTestId('survey-result')
+    const [firstAnswerWrap] = screen.queryAllByTestId('answer-wrap')
+    fireEvent.click(firstAnswerWrap)
+    await screen.findByTestId('survey-result')
+    const loading = screen.queryByTestId('loading')
+
+    expect(loading).not.toBeInTheDocument()
+  })
 })
