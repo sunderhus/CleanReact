@@ -1,15 +1,20 @@
-import { LoadSurveyResult } from '@/domain/usecases'
+import { LoadSurveyResult, SaveSurveyResult } from '@/domain/usecases'
 import { Error, Footer, Header, Loading } from '@/presentation/components'
+import { AnswerContext } from '@/presentation/contexts'
 import { useErrorHandler } from '@/presentation/hooks'
 import { SurveyResulData } from '@/presentation/pages/survey-result/components'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Styles from './styles.scss'
 
 type Props = {
   loadSurveyResult: LoadSurveyResult
+  saveSurveyResult: SaveSurveyResult
 }
 
-const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
+const SurveyResult: React.FC<Props> = ({
+  loadSurveyResult,
+  saveSurveyResult
+}: Props) => {
   const handleError = useErrorHandler((error: Error) => {
     setError(error.message)
     setSurvey(null)
@@ -27,6 +32,14 @@ const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
     setReload(true)
   }
 
+  const handleSelect = useCallback((answer: string) => {
+    setIsLoading(true)
+    saveSurveyResult.save({ answer })
+      .then()
+      .catch()
+      .finally(() => setIsLoading(false))
+  }, [])
+
   useEffect(() => {
     setIsLoading(true)
     loadSurveyResult.load()
@@ -40,18 +53,22 @@ const SurveyResult: React.FC<Props> = ({ loadSurveyResult }: Props) => {
   return (
     <div className={Styles.surveyResultWrap}>
       <Header />
-      <div className={Styles.contentWrap} data-testid="survey-result">
-        {!!survey && <SurveyResulData surveyResult={survey} />}
+      <AnswerContext.Provider value={{
+        selectAnswer: handleSelect
+      }}>
+        <div className={Styles.contentWrap} data-testid="survey-result">
+          {!!survey && <SurveyResulData surveyResult={survey} />}
 
-        {isLoading && !error && <Loading />}
+          {isLoading && !error && <Loading />}
 
-        {!!error && (
-          <Error
-            error={error}
-            reload={handleReload}
-          />
-        )}
-      </div>
+          {!!error && (
+            <Error
+              error={error}
+              reload={handleReload}
+            />
+          )}
+        </div>
+      </AnswerContext.Provider>
       <Footer />
     </div>
   )
