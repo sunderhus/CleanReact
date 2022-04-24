@@ -1,5 +1,5 @@
 import { AccessDeniedError, UnexpectedError } from '@/domain/Errors'
-import { LoadSurveyResultSpy, mockAccountModel, mockSurveyResultModel } from '@/domain/test'
+import { LoadSurveyResultSpy, mockAccountModel, mockSurveyResultModel, SaveSurveyResultSpy } from '@/domain/test'
 import { ApiContext } from '@/presentation/contexts'
 import { SurveyResult } from '@/presentation/pages'
 import { fireEvent, render, screen } from '@testing-library/react'
@@ -9,10 +9,14 @@ import { Router } from 'react-router-dom'
 
 type SutTypes = {
   loadSurveyResultSpy: LoadSurveyResultSpy
+  saveSurveyResultSpy: SaveSurveyResultSpy
   history: MemoryHistory
 }
 
-const makeSut = (loadSurveyResultSpy = new LoadSurveyResultSpy()): SutTypes => {
+const makeSut = ({
+  loadSurveyResultSpy = new LoadSurveyResultSpy(),
+  saveSurveyResultSpy = new SaveSurveyResultSpy()
+}): SutTypes => {
   const setCurrentAccountMock = jest.fn()
   const getCurrentAccountMock = jest.fn(() => mockAccountModel())
   const memoryHistory = createMemoryHistory({
@@ -26,20 +30,24 @@ const makeSut = (loadSurveyResultSpy = new LoadSurveyResultSpy()): SutTypes => {
       getCurrentAccount: getCurrentAccountMock
     }}>
       <Router history={memoryHistory}>
-        <SurveyResult loadSurveyResult={loadSurveyResultSpy} />
+        <SurveyResult
+          loadSurveyResult={loadSurveyResultSpy}
+          saveSurveyResult={saveSurveyResultSpy}
+        />
       </Router>
     </ApiContext.Provider>
   )
 
   return {
     loadSurveyResultSpy,
+    saveSurveyResultSpy,
     history: memoryHistory
   }
 }
 
 describe('SurveyResult', () => {
   it('Should start with correct initial state', async () => {
-    makeSut()
+    makeSut({})
     const surveyResult = screen.getByTestId('survey-result')
     const error = screen.queryByTestId('error')
     const loading = screen.queryByTestId('loading')
@@ -51,7 +59,7 @@ describe('SurveyResult', () => {
   })
 
   it('Should call LoadSurveyResult', async () => {
-    const { loadSurveyResultSpy } = makeSut()
+    const { loadSurveyResultSpy } = makeSut({})
 
     await screen.findByTestId('survey-result')
 
@@ -64,7 +72,7 @@ describe('SurveyResult', () => {
       date: new Date('2022-01-10T00:00:00')
     })
     loadSurveyResultSpy.surveyResult = surveyResultStub
-    makeSut(loadSurveyResultSpy)
+    makeSut({ loadSurveyResultSpy })
 
     await screen.findByTestId('survey-result')
     const [firstImage, secondImage] = screen.queryAllByTestId('image')
@@ -92,7 +100,7 @@ describe('SurveyResult', () => {
     const loadSurveyResultSpy = new LoadSurveyResultSpy()
     const error = new UnexpectedError()
     jest.spyOn(loadSurveyResultSpy, 'load').mockRejectedValueOnce(error)
-    makeSut(loadSurveyResultSpy)
+    makeSut({ loadSurveyResultSpy })
 
     await screen.findByTestId('survey-result')
 
@@ -105,7 +113,7 @@ describe('SurveyResult', () => {
     const loadSurveyResultSpy = new LoadSurveyResultSpy()
     const error = new AccessDeniedError()
     jest.spyOn(loadSurveyResultSpy, 'load').mockRejectedValueOnce(error)
-    const { history } = makeSut(loadSurveyResultSpy)
+    const { history } = makeSut({ loadSurveyResultSpy })
 
     await screen.findByTestId('survey-result')
 
@@ -116,7 +124,7 @@ describe('SurveyResult', () => {
     const loadSurveyResultSpy = new LoadSurveyResultSpy()
     const error = new UnexpectedError()
     jest.spyOn(loadSurveyResultSpy, 'load').mockRejectedValueOnce(error)
-    makeSut(loadSurveyResultSpy)
+    makeSut({ loadSurveyResultSpy })
 
     await screen.findByTestId('survey-result')
     fireEvent.click(screen.getByTestId('reload'))
@@ -126,7 +134,7 @@ describe('SurveyResult', () => {
   })
 
   it('Should go back to SurveyList', async () => {
-    const { history } = makeSut()
+    const { history } = makeSut({})
 
     await screen.findByTestId('survey-result')
     const backButton = screen.getByTestId('back-button')
@@ -136,7 +144,7 @@ describe('SurveyResult', () => {
   })
 
   it('Should not present loading when user click on  active answer', async () => {
-    makeSut()
+    makeSut({})
 
     await screen.findByTestId('survey-result')
     const [firstAnswerWrap] = screen.queryAllByTestId('answer-wrap')
@@ -145,5 +153,20 @@ describe('SurveyResult', () => {
     const loading = screen.queryByTestId('loading')
 
     expect(loading).not.toBeInTheDocument()
+  })
+
+  it('Should call SaveSurveyResult when user click a new answer', async () => {
+    const { loadSurveyResultSpy, saveSurveyResultSpy } = makeSut({})
+
+    await screen.findByTestId('survey-result')
+    const answers = screen.queryAllByTestId('answer-wrap')
+    fireEvent.click(answers[1])
+    const loading = screen.queryByTestId('loading')
+
+    expect(loading).toBeInTheDocument()
+    expect(saveSurveyResultSpy.params).toEqual({
+      answer: loadSurveyResultSpy.surveyResult.answers[1].answer
+    })
+    await screen.findByTestId('survey-result')
   })
 })
