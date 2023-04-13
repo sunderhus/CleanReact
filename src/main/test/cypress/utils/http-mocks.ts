@@ -20,13 +20,11 @@ export const mockForbiddenError = (url: RegExp): void => {
   }).as(requestAlias)
 }
 
-export const mockServerError = (url: RegExp): void => {
+export const mockServerError = <R>(url: RegExp, response: R): void => {
   cy.intercept(url, {
     delay: 100,
     statusCode: faker.helpers.randomize([400, 402, 404, 500]),
-    body: {
-      accessToken: faker.datatype.uuid()
-    }
+    body: response
   }).as(requestAlias)
 }
 

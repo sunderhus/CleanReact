@@ -6,7 +6,7 @@ import * as Http from '../utils/http-mocks'
 const urlMatcher = /signup/
 export const mockEmailInUseError = (): void => Http.mockForbiddenError(urlMatcher)
 
-export const mockUnexpectedError = (): void => Http.mockServerError(urlMatcher)
+export const mockUnexpectedError = (): void => Http.mockServerError(urlMatcher, null)
 
 export const mockSuccess = (): void => {
   cy.fixture('account').then(account => {
