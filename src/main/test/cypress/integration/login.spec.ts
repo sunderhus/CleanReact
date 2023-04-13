@@ -1,14 +1,14 @@
 
 import faker from 'faker'
-import * as Http from '../utils/http-mocks'
 import * as FormHelper from '../utils/form-helpers'
 import * as Helper from '../utils/helpers'
+import * as Http from '../utils/http-mocks'
 
 const urlMatcher = /login/
 
 export const mockInvalidCredentialsError = (): void => Http.mockUnauthorizedError(urlMatcher)
 
-export const mockUnexpectedError = (): void => Http.mockServerError(urlMatcher)
+export const mockUnexpectedError = (): void => Http.mockServerError(urlMatcher, null)
 
 export const mockSuccess = (): void => {
   cy.fixture('account').then(account => {
