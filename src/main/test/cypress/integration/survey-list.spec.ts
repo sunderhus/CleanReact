@@ -3,7 +3,7 @@ import * as Helper from '../utils/helpers'
 import * as Http from '../utils/http-mocks'
 const urlMatcher = /surveys/
 
-export const mockUnexpectedError = (): void => Http.mockServerError(urlMatcher, null)
+export const mockUnexpectedError = (): void => Http.mockServerError(urlMatcher, [])
 
 export const mockAccessDeniedError = (): void => Http.mockForbiddenError(urlMatcher)
 
